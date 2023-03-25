@@ -1,6 +1,6 @@
 
-from SmsService import send_sms
-from Price import get_max_price, get_min_price
+from services.SmsService import send_sms
+from services.PriceService import get_max_price, get_min_price
 
 min_price = get_min_price()
 max_price = get_max_price()
