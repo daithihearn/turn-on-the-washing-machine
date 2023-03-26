@@ -11,7 +11,8 @@ PRICES_API = os.getenv('PRICES_API')
 
 class Price:
     def __init__(self, price, hour):
-        self.value = format_euro(price)
+        self.value = str(price)
+        self.value_euro = format_euro(price)
         self.hour = str(hour)
 
 
