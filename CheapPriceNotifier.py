@@ -1,6 +1,6 @@
 import os
 from services.SmsService import send_sms
-from services.PriceService import get_current_price, get_max_price, get_min_price
+from services.PriceService import get_current_price, get_max_price, get_cheapest_period
 import i18n
 from dotenv import load_dotenv
 
@@ -9,7 +9,7 @@ load_dotenv()
 TWILIO_RECIPIENTS = os.getenv('TWILIO_RECIPIENTS')
 
 curr_price = get_current_price()
-min_price = get_min_price()
+min_price = get_cheapest_period(2)
 max_price = get_max_price()
 
 if curr_price.value == min_price.value:

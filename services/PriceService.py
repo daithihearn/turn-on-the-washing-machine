@@ -43,5 +43,16 @@ def get_max_price():
     return Price(data.get('price') / 1000, data.get('hour')[0:2]+':00')
 
 
+def get_cheapest_period(period):
+    # Call the API and get the response
+    response = requests.get(PRICES_API+'/cheapests?zone=PCB&n='+str(period))
+    content = response.content.decode('utf-8')
+    data = json.loads(content)
+
+    earliest = min(data, key=lambda x: x.get('hour')[0:2])
+
+    return Price(earliest.get('price') / 1000, earliest.get('hour')[0:2]+':00')
+
+
 def format_euro(amount) -> str:
     return babel.numbers.format_currency(amount, 'EUR', locale='en_GB')

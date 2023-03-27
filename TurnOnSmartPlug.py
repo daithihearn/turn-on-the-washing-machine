@@ -1,10 +1,10 @@
 
 import asyncio
-from services.PriceService import get_current_price, get_max_price, get_min_price
+from services.PriceService import get_current_price, get_max_price, get_cheapest_period
 from services.SmartPlugService import turn_on
 
 curr_price = get_current_price()
-min_price = get_min_price()
+min_price = get_cheapest_period(2)
 max_price = get_max_price()
 
 
