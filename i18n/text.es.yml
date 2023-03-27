@@ -1,0 +1,15 @@
+es:
+  daily_price: |
+      Precios hoy:
+       - Min:    %{min_price}
+       - Max:   %{max_price}
+  expensive_price: | 
+      Apaga todo!!
+       - Min:        %{min_price}
+       - Max:       %{max_price}
+       - Actual:   %{cur_price}
+  cheap_price: | 
+      Enciende la lavadora!!
+       - Min:        %{min_price}
+       - Max:       %{max_price}
+       - Actual:   %{cur_price}
