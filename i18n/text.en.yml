@@ -1,0 +1,15 @@
+en:
+  daily_price: |
+      Prices today:
+       - Min:    %{min_price}
+       - Max:   %{max_price}
+  expensive_price: | 
+      Turn everything off!!
+       - Min:          %{min_price}
+       - Max:         %{max_price}
+       - Current:   %{cur_price}
+  cheap_price: | 
+      Put the washing machine on!!
+       - Min:          %{min_price}
+       - Max:         %{max_price}
+       - Current:   %{cur_price}
