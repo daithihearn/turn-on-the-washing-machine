@@ -9,7 +9,7 @@ es:
        - Max:       %{max_price}
        - Actual:   %{cur_price}
   cheap_price: | 
-      Enciende la lavadora!!
+      Enciende la lavadora!! El período de 3 horas más barato comienza ahora.
        - Min:        %{min_price}
        - Max:       %{max_price}
        - Actual:   %{cur_price}
