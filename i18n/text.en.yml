@@ -9,7 +9,7 @@ en:
        - Max:         %{max_price}
        - Current:   %{cur_price}
   cheap_price: | 
-      Put the washing machine on!!
+      Put the washing machine on!! The cheapest 3 hour period starts now.
        - Min:          %{min_price}
        - Max:         %{max_price}
        - Current:   %{cur_price}
