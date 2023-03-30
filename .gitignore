@@ -1,3 +1,5 @@
-.env
+.env*
 __pycache__
 actions-runner
+logs
+PyWhatKit_DB.txt

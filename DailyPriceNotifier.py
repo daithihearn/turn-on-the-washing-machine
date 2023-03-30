@@ -27,5 +27,4 @@ if TWILIO_RECIPIENTS != "":
         else:
             send_sms(messageEn, recipient)
 
-send_to_group(messageEn)
 send_to_group(messageEs)

@@ -1,5 +1,6 @@
 import os
 from services.SmsService import send_sms
+from services.WhatsappService import send_to_group
 from services.PriceService import get_current_price, get_min_price, get_max_price, get_cheapest_period
 import i18n
 from dotenv import load_dotenv
@@ -31,6 +32,8 @@ if curr_price.value == cheapest_period.value:
             send_sms(messageEs, recipient)
         else:
             send_sms(messageEn, recipient)
+
+    send_to_group(messageEs)
 else:
     print('No need to put the washing machine on. Cheapest 3 hour period starts with '+cheapest_period.value_euro+', min price is ' +
           min_price.value_euro+', max price is ' + max_price.value_euro+', current price is '+curr_price.value_euro+'.')
