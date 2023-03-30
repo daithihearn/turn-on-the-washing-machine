@@ -1,4 +1,4 @@
-import asyncio
+import logging
 import os
 from meross_iot.http_api import MerossHttpClient
 from meross_iot.manager import MerossManager
@@ -25,5 +25,5 @@ async def turn_on():
 
         for plug in plugs:
             if (plug.name == DEVICE_TO_TURN_ON):
-                print("Turning on " + plug.name)
+                logging.info("Turning on " + plug.name)
                 await plug.async_turn_on(channel=0)
