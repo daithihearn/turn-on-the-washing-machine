@@ -1,9 +1,13 @@
 import os
+import logging
 from services.SmsService import send_sms
 from services.WhatsappService import send_to_group
 from services.PriceService import get_max_price, get_min_price, get_cheapest_period
+from LoggingConfig import configure_logging
 import i18n
 from dotenv import load_dotenv
+
+configure_logging()
 
 load_dotenv()
 
@@ -27,8 +31,8 @@ messageEs = i18n.t('text.daily_price', min_price=str(min_price.value_euro+'@'+mi
                    cheapest_period_value=cheapest_period.value_euro)
 
 
-print(messageEn)
-print(messageEs)
+logging.info(messageEn)
+logging.info(messageEs)
 
 if TWILIO_RECIPIENTS != "":
     for recipient in TWILIO_RECIPIENTS.split(","):

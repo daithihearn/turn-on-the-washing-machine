@@ -1,4 +1,5 @@
 import os
+import logging
 from twilio.rest import Client
 from dotenv import load_dotenv
 
@@ -16,4 +17,4 @@ def send_sms(message, recipient):
         from_=TWILIO_FROM_NUMBER,
         to=recipient
     )
-    print('SMS sent successfully to '+recipient)
+    logging.info('SMS sent successfully to '+recipient)
