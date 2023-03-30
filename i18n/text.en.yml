@@ -1,15 +1,21 @@
 en:
   daily_price: |
-      Prices today:
-       - Min:    %{min_price}
-       - Max:   %{max_price}
+        The cheapest 3 hour period starts at %{cheapest_period_hour} with an average price of %{cheapest_period_value}
+
+        Prices today:
+        - Min:    %{min_price}
+        - Max:   %{max_price}
+
+    
   expensive_price: | 
-      Turn everything off!!
+      Turn everything off!! It's the most expensive time.
+
        - Min:          %{min_price}
        - Max:         %{max_price}
        - Current:   %{cur_price}
   cheap_price: | 
       Put the washing machine on!! The cheapest 3 hour period starts now.
+      
        - Min:          %{min_price}
        - Max:         %{max_price}
        - Current:   %{cur_price}

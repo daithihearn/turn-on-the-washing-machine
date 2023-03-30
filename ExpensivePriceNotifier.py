@@ -1,5 +1,6 @@
 import os
 from services.SmsService import send_sms
+from services.WhatsappService import send_to_group
 from services.PriceService import get_current_price, get_max_price, get_min_price
 import i18n
 from dotenv import load_dotenv
@@ -30,6 +31,8 @@ if curr_price.value == max_price.value:
             send_sms(messageEs, recipient)
         else:
             send_sms(messageEn, recipient)
+
+        send_to_group(messageEs)
 else:
     print('No need to warn about the price. Min price is ' +
           min_price.value_euro+', max price is' + max_price.value_euro+', current price is '+curr_price.value_euro+'.')
