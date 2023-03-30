@@ -51,7 +51,9 @@ def get_cheapest_period(period):
 
     earliest = min(data, key=lambda x: x.get('hour')[0:2])
 
-    return Price(earliest.get('price') / 1000, earliest.get('hour')[0:2]+':00')
+    avg_price = sum([x.get('price') for x in data]) / len(data)
+
+    return Price(avg_price / 1000, earliest.get('hour')[0:2]+':00')
 
 
 def format_euro(amount) -> str:
