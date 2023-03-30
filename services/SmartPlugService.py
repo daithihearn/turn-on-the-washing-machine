@@ -25,5 +25,5 @@ async def turn_on():
 
         for plug in plugs:
             if (plug.name == DEVICE_TO_TURN_ON):
-                logging.info("Turning on " + plug.name)
+                logging.info(f'Turning on {plug.name}')
                 await plug.async_turn_on(channel=0)

@@ -17,4 +17,4 @@ def send_sms(message, recipient):
         from_=TWILIO_FROM_NUMBER,
         to=recipient
     )
-    logging.info('SMS sent successfully to '+recipient)
+    logging.info(f'SMS sent successfully to {recipient}')
