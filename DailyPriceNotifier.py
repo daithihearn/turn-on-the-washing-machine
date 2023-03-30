@@ -1,12 +1,13 @@
 import os
 from services.SmsService import send_sms
+from services.WhatsappService import send_to_group
 from services.PriceService import get_max_price, get_min_price
 import i18n
 from dotenv import load_dotenv
 
 load_dotenv()
 
-TWILIO_RECIPIENTS = os.getenv('TWILIO_RECIPIENTS')
+TWILIO_RECIPIENTS = os.getenv('TWILIO_RECIPIENTS') or ""
 
 i18n.load_path.append('i18n')
 
@@ -19,9 +20,12 @@ messageEn = i18n.t('text.daily_price', min_price=str(min_price.value_euro +
 i18n.set('locale', 'es')
 messageEs = i18n.t('text.daily_price', min_price=str(min_price.value_euro +
                                                      '@'+min_price.hour), max_price=str(max_price.value_euro+'@'+max_price.hour))
+if TWILIO_RECIPIENTS != "":
+    for recipient in TWILIO_RECIPIENTS.split(","):
+        if recipient.startswith('+34'):
+            send_sms(messageEs, recipient)
+        else:
+            send_sms(messageEn, recipient)
 
-for recipient in TWILIO_RECIPIENTS.split(","):
-    if recipient.startswith('+34'):
-        send_sms(messageEs, recipient)
-    else:
-        send_sms(messageEn, recipient)
+send_to_group(messageEn)
+send_to_group(messageEs)
