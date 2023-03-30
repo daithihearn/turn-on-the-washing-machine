@@ -3,7 +3,7 @@ en:
         The cheapest 3 hour period starts at %{cheapest_period_hour} with an average price of %{cheapest_period_value}
 
         Prices today:
-        - Min:    %{min_price}
+        - Min:   %{min_price}
         - Max:   %{max_price}
 
     

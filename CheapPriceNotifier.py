@@ -21,15 +21,15 @@ max_price = get_max_price()
 if curr_price.value == cheapest_period.value:
     i18n.load_path.append('i18n')
     messageEn = i18n.t('text.cheap_price',
-                       min_price=str(min_price.value_euro+'@'+min_price.hour),
-                       max_price=str(max_price.value_euro+'@'+max_price.hour),
-                       cur_price=str(curr_price.value_euro+'@'+curr_price.hour))
+                       min_price=min_price.formatted,
+                       max_price=max_price.formatted,
+                       cur_price=curr_price.formatted)
 
     i18n.set('locale', 'es')
     messageEs = i18n.t('text.cheap_price',
-                       min_price=str(min_price.value_euro+'@'+min_price.hour),
-                       max_price=str(max_price.value_euro+'@'+max_price.hour),
-                       cur_price=str(curr_price.value_euro+'@'+curr_price.hour))
+                       min_price=min_price.formatted,
+                       max_price=max_price.formatted,
+                       cur_price=curr_price.formatted)
 
     for recipient in TWILIO_RECIPIENTS.split(","):
         if recipient.startswith('+34'):
@@ -39,5 +39,5 @@ if curr_price.value == cheapest_period.value:
 
     send_to_group(messageEs)
 else:
-    logging.info('No need to put the washing machine on. Cheapest 3 hour period starts with '+cheapest_period.value_euro+', min price is ' +
-                 min_price.value_euro+', max price is ' + max_price.value_euro+', current price is '+curr_price.value_euro+'.')
+    logging.info(
+        f'No need to put the washing machine on. Cheapest 3 hour period starts with {cheapest_period.value_euro}, min price is {min_price.value_euro}, max price is {max_price.value_euro}, current price is {curr_price.value_euro}.')

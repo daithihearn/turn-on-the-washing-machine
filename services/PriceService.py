@@ -14,11 +14,12 @@ class Price:
         self.value = str(price)
         self.value_euro = format_euro(price)
         self.hour = str(hour)
+        self.formatted = f'{self.value_euro}@{self.hour}'
 
 
 def get_current_price() -> Price:
     # Call the API and get the response
-    response = requests.get(PRICES_API+"/now?zone=PCB")
+    response = requests.get(f'{PRICES_API}/now?zone=PCB')
     content = response.content.decode('utf-8')
     data = json.loads(content)
 
@@ -27,7 +28,7 @@ def get_current_price() -> Price:
 
 def get_min_price():
     # Call the API and get the response
-    response = requests.get(PRICES_API+'/min?zone=PCB')
+    response = requests.get(f'{PRICES_API}/min?zone=PCB')
     content = response.content.decode('utf-8')
     data = json.loads(content)
 
@@ -36,7 +37,7 @@ def get_min_price():
 
 def get_max_price():
     # Call the API and get the response
-    response = requests.get(PRICES_API+'/max?zone=PCB')
+    response = requests.get(f'{PRICES_API}/max?zone=PCB')
     content = response.content.decode('utf-8')
     data = json.loads(content)
 
@@ -45,7 +46,7 @@ def get_max_price():
 
 def get_cheapest_period(period):
     # Call the API and get the response
-    response = requests.get(PRICES_API+'/cheapests?zone=PCB&n='+str(period))
+    response = requests.get(f'{PRICES_API}/cheapests?zone=PCB&n={str(period)}')
     content = response.content.decode('utf-8')
     data = json.loads(content)
 

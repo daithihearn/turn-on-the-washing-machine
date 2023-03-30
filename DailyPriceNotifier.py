@@ -19,14 +19,14 @@ cheapest_period = get_cheapest_period(3)
 min_price = get_min_price()
 max_price = get_max_price()
 
-messageEn = i18n.t('text.daily_price', min_price=str(min_price.value_euro+'@'+min_price.hour),
-                   max_price=str(max_price.value_euro+'@'+max_price.hour),
+messageEn = i18n.t('text.daily_price', min_price=min_price.formatted,
+                   max_price=max_price.formatted,
                    cheapest_period_hour=cheapest_period.hour,
                    cheapest_period_value=cheapest_period.value_euro)
 
 i18n.set('locale', 'es')
-messageEs = i18n.t('text.daily_price', min_price=str(min_price.value_euro+'@'+min_price.hour),
-                   max_price=str(max_price.value_euro+'@'+max_price.hour),
+messageEs = i18n.t('text.daily_price', min_price=min_price.formatted,
+                   max_price=max_price.formatted,
                    cheapest_period_hour=cheapest_period.hour,
                    cheapest_period_value=cheapest_period.value_euro)
 
