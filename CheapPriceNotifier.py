@@ -18,7 +18,7 @@ cheapest_period = get_cheapest_period(3)
 min_price = get_min_price()
 max_price = get_max_price()
 
-if curr_price.value == cheapest_period.value:
+if curr_price.hour == cheapest_period.hour:
     i18n.load_path.append('i18n')
     messageEn = i18n.t('text.cheap_price',
                        min_price=min_price.formatted,
@@ -40,4 +40,4 @@ if curr_price.value == cheapest_period.value:
     send_to_group(messageEs)
 else:
     logging.info(
-        f'No need to put the washing machine on. Cheapest 3 hour period starts with {cheapest_period.value_euro}, min price is {min_price.value_euro}, max price is {max_price.value_euro}, current price is {curr_price.value_euro}.')
+        f'No need to put the washing machine on. Cheapest 3 hour period is {cheapest_period.formatted}, min {min_price.formatted}, max {max_price.formatted}, current {curr_price.formatted}.')
