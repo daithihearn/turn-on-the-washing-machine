@@ -1,9 +1,9 @@
 es:
   daily_price: |
         Los precios para %{date_time}
-        El período de 3 horas más barato comienza a las %{cheapest_period_hour} con un precio promedio de %{cheapest_period_value}
-        La hora más barata será %{min_price}
-        La hora más cara será %{max_price}
+        El periodo de 3 horas mas barato comienza a las %{cheapest_period_hour} con un precio promedio de %{cheapest_period_value}
+        - Min: %{min_price}
+        - Max: %{max_price}
   expensive_price: | 
       Apaga todo!! Es el momento mas caro
 
@@ -11,7 +11,7 @@ es:
        - Max:       %{max_price}
        - Actual:   %{cur_price}
   cheap_price: | 
-      Enciende la lavadora!! El período de 3 horas más barato comienza ahora.
+      Enciende la lavadora!! El periodo de 3 horas mas barato comienza ahora.
       
        - Min:        %{min_price}
        - Max:       %{max_price}

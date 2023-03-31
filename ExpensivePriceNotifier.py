@@ -43,7 +43,7 @@ if curr_price.hour == max_price.hour:
     logging.info(messageEn)
     logging.info(messageEs)
 
-    if TWILIO_RECIPIENTS != ""
+    if TWILIO_RECIPIENTS != "":
         for recipient in TWILIO_RECIPIENTS.split(","):
             if recipient.startswith('+34'):
                 send_sms(messageEs, recipient)

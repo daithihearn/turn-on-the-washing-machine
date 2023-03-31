@@ -4,5 +4,5 @@ twilio
 asyncio
 meross_iot==0.4.5.9
 python-i18n[YAML]
-pywhatkit
+pywhatkit==5.4
 python-dateutil
