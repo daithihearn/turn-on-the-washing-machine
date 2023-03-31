@@ -1,0 +1,125 @@
+{
+    "field1": [
+        {
+            "value": 58.75,
+            "percentage": 0.6785631785631786,
+            "datetime": "2023-03-31T00: 00: 00.000+02: 00"
+        },
+        {
+            "value": 49.14,
+            "percentage": 0.7117612977983778,
+            "datetime": "2023-03-31T01: 00: 00.000+02: 00"
+        },
+        {
+            "value": 49.12,
+            "percentage": 0.7511851965132282,
+            "datetime": "2023-03-31T02: 00: 00.000+02: 00"
+        },
+        {
+            "value": 48.1,
+            "percentage": 0.7745571658615137,
+            "datetime": "2023-03-31T03: 00: 00.000+02: 00"
+        },
+        {
+            "value": 45.01,
+            "percentage": 0.7895106121733029,
+            "datetime": "2023-03-31T04: 00: 00.000+02: 00"
+        },
+        {
+            "value": 48.47,
+            "percentage": 0.7636678745864188,
+            "datetime": "2023-03-31T05: 00: 00.000+02: 00"
+        },
+        {
+            "value": 44.57,
+            "percentage": 0.7159839357429719,
+            "datetime": "2023-03-31T06: 00: 00.000+02: 00"
+        },
+        {
+            "value": 53.98,
+            "percentage": 0.6598215377093264,
+            "datetime": "2023-03-31T07: 00: 00.000+02: 00"
+        },
+        {
+            "value": 84.08,
+            "percentage": 0.7243280496209511,
+            "datetime": "2023-03-31T08: 00: 00.000+02: 00"
+        },
+        {
+            "value": 73.63,
+            "percentage": 0.7549471957346457,
+            "datetime": "2023-03-31T09: 00: 00.000+02: 00"
+        },
+        {
+            "value": 111.27,
+            "percentage": 0.8724321781401914,
+            "datetime": "2023-03-31T10: 00: 00.000+02: 00"
+        },
+        {
+            "value": 99.37,
+            "percentage": 0.9478252575352919,
+            "datetime": "2023-03-31T11: 00: 00.000+02: 00"
+        },
+        {
+            "value": 97.66,
+            "percentage": 0.9591435867216657,
+            "datetime": "2023-03-31T12: 00: 00.000+02: 00"
+        },
+        {
+            "value": 97.82,
+            "percentage": 0.959207687781918,
+            "datetime": "2023-03-31T13: 00: 00.000+02: 00"
+        },
+        {
+            "value": 49.76,
+            "percentage": 0.9688473520249221,
+            "datetime": "2023-03-31T14: 00: 00.000+02: 00"
+        },
+        {
+            "value": 48.57,
+            "percentage": 0.9958991183104366,
+            "datetime": "2023-03-31T15: 00: 00.000+02: 00"
+        },
+        {
+            "value": 48.31,
+            "percentage": 0.9960824742268042,
+            "datetime": "2023-03-31T16: 00: 00.000+02: 00"
+        },
+        {
+            "value": 52.08,
+            "percentage": 0.9678498420367961,
+            "datetime": "2023-03-31T17: 00: 00.000+02: 00"
+        },
+        {
+            "value": 106.95,
+            "percentage": 0.962559625596256,
+            "datetime": "2023-03-31T18: 00: 00.000+02: 00"
+        },
+        {
+            "value": 115.17,
+            "percentage": 0.855201603920695,
+            "datetime": "2023-03-31T19: 00: 00.000+02: 00"
+        },
+        {
+            "value": 130.72,
+            "percentage": 0.7996574294977672,
+            "datetime": "2023-03-31T20: 00: 00.000+02: 00"
+        },
+        {
+            "value": 133.53,
+            "percentage": 0.7894643490599504,
+            "datetime": "2023-03-31T21: 00: 00.000+02: 00"
+        },
+        {
+            "value": 85.18,
+            "percentage": 0.7238273283480625,
+            "datetime": "2023-03-31T22: 00: 00.000+02: 00"
+        },
+        {
+            "value": 84.34,
+            "percentage": 0.7254429726475142,
+            "datetime": "2023-03-31T23: 00: 00.000+02: 00"
+        }
+    ],
+ field2": [<services.PriceService.Price object at 0x101400850>, <services.PriceService.Price object at 0x101cc7b50>, <services.PriceService.Price object at 0x107cda9d0>, <services.PriceService.Price object at 0x107ce1290>, <services.PriceService.Price object at 0x107ce2210>, <services.PriceService.Price object at 0x101cbdad0>, <services.PriceService.Price object at 0x107ce2490>, <services.PriceService.Price object at 0x107ce3150>, <services.PriceService.Price object at 0x107ce3510>, <services.PriceService.Price object at 0x107ce22d0>, <services.PriceService.Price object at 0x107ce3b90>, <services.PriceService.Price object at 0x107cec090>, <services.PriceService.Price object at 0x107eaf490>, <services.PriceService.Price object at 0x107cec210>, <services.PriceService.Price object at 0x107cecbd0>, <services.PriceService.Price object at 0x107ce39d0>, <services.PriceService.Price object at 0x107ea7390>, <services.PriceService.Price object at 0x107ea6510>, <services.PriceService.Price object at 0x107ea63d0>, <services.PriceService.Price object at 0x107ea57d0>, <services.PriceService.Price object at 0x107ea45d0>, <services.PriceService.Price object at 0x107ea42d0>, <services.PriceService.Price object at 0x107e9bdd0>, <services.PriceService.Price object at 0x1007490d0>]
+}

@@ -1,10 +1,9 @@
 en:
   daily_price: |
+        Price Data for %{date_time}
         The cheapest 3 hour period starts at %{cheapest_period_hour} with an average price of %{cheapest_period_value}
-
-        Prices today:
-        - Min:   %{min_price}
-        - Max:   %{max_price}
+        The cheapest hour will be %{min_price}
+        The most expensive hour will be %{max_price}
 
     
   expensive_price: | 
