@@ -17,7 +17,7 @@ curr_price = get_current_price()
 min_price = get_min_price()
 max_price = get_max_price()
 
-if curr_price.value == max_price.value:
+if curr_price.hour == max_price.hour:
     i18n.load_path.append('i18n')
     messageEn = i18n.t('text.expensive_price',
                        min_price=min_price.formatted,
@@ -39,4 +39,4 @@ if curr_price.value == max_price.value:
         send_to_group(messageEs)
 else:
     logging.info(
-        f'No need to warn about the price. Min price is {min_price.value_euro}, max price is {max_price.value_euro}, current price is {curr_price.value_euro}.')
+        f'No need to warn about the price. Min {min_price.formatted}, max {max_price.formatted}, current {curr_price.formatted}.')
