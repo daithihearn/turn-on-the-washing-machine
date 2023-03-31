@@ -1,10 +1,9 @@
 es:
   daily_price: |
+        Los precios para %{date_time}
         El período de 3 horas más barato comienza a las %{cheapest_period_hour} con un precio promedio de %{cheapest_period_value}
-        
-        Precios hoy:
-        - Min:   %{min_price}
-        - Max:   %{max_price}
+        La hora más barata será %{min_price}
+        La hora más cara será %{max_price}
   expensive_price: | 
       Apaga todo!! Es el momento mas caro
 
