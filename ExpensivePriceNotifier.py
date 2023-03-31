@@ -43,13 +43,14 @@ if curr_price.hour == max_price.hour:
     logging.info(messageEn)
     logging.info(messageEs)
 
-    for recipient in TWILIO_RECIPIENTS.split(","):
-        if recipient.startswith('+34'):
-            send_sms(messageEs, recipient)
-        else:
-            send_sms(messageEn, recipient)
+    if TWILIO_RECIPIENTS != ""
+        for recipient in TWILIO_RECIPIENTS.split(","):
+            if recipient.startswith('+34'):
+                send_sms(messageEs, recipient)
+            else:
+                send_sms(messageEn, recipient)
 
-        send_to_group(messageEs)
+    send_to_group(messageEs)
 else:
     logging.info(
         f'No need to warn about the price. Min {min_price.formatted}, max {max_price.formatted}, current {curr_price.formatted}.')

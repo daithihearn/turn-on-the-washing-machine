@@ -44,11 +44,12 @@ if curr_price.hour == cheapest_period[0].hour:
     logging.info(messageEn)
     logging.info(messageEs)
 
-    for recipient in TWILIO_RECIPIENTS.split(","):
-        if recipient.startswith('+34'):
-            send_sms(messageEs, recipient)
-        else:
-            send_sms(messageEn, recipient)
+    if TWILIO_RECIPIENTS != ""
+        for recipient in TWILIO_RECIPIENTS.split(","):
+            if recipient.startswith('+34'):
+                send_sms(messageEs, recipient)
+            else:
+                send_sms(messageEn, recipient)
 
     send_to_group(messageEs)
 else:
