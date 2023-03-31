@@ -13,11 +13,11 @@ max_price = get_max_price()
 
 
 async def main():
-    if curr_price.value == cheapest_period.value:
+    if curr_price.hour == cheapest_period.hour:
         await turn_on()
     else:
         logging.info(
-            f'Not turning the smart plug on. Cheapest 3 hour period starts with {cheapest_period.value_euro}, min price is {min_price.value_euro}, max price is {max_price.value_euro}, current price is {curr_price.value_euro}.')
+            f'Not turning the smart plug on. Cheapest 3 hour period {cheapest_period.formatted}, min {min_price.formatted}, max {max_price.formatted}, current {curr_price.formatted}.')
 
 if __name__ == '__main__':
     loop = asyncio.new_event_loop()
