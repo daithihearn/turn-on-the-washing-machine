@@ -28,7 +28,7 @@ def get_cheap_period_recent_average(days: int) -> float:
     total = float(0)
     for i in range(days):
         day = today - timedelta(days=i)
-        prices = get_daily_prices(day, day)
+        prices = get_prices(day, day)
         if prices:
             cheapest_period = get_cheapest_period(prices, 3)
             if cheapest_period:
@@ -52,16 +52,16 @@ def calculate_day_rating(cheapest_period_avg: float) -> str:
 
 def get_today():
     today = date.today()
-    return get_daily_prices(today, today)
+    return get_prices(today, today)
 
 
 def get_tomorrow():
     today = date.today()
     tomorrow = today + timedelta(days=1)
-    return get_daily_prices(tomorrow, tomorrow)
+    return get_prices(tomorrow, tomorrow)
 
 
-def get_daily_prices(start: date, end: date):
+def get_prices(start: date, end: date) -> list[Price]:
     start_day = start.strftime('%Y-%m-%d')
     end_day = end.strftime('%Y-%m-%d')
     response = requests.get(
@@ -127,8 +127,6 @@ def get_expensive_period(prices: list[Price], n: int):
             max_sum = window_sum
             max_window = prices_sorted[i:i+n]
 
-    for m in max_window:
-        print(m.formatted)
     return max_window
 
 
