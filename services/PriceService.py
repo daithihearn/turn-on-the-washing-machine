@@ -77,4 +77,4 @@ def get_cheapest_period(prices: list[Price], n: int):
 
 
 def format_euro(amount) -> str:
-    return babel.numbers.format_currency(amount, 'EUR', locale='en_GB')
+    return f'EUR {babel.numbers.format_decimal(amount, locale="en_GB")}'
