@@ -38,7 +38,7 @@ def get_cheap_period_recent_average(days: int) -> float:
 
 
 def calculate_day_rating(cheapest_period_avg: float) -> str:
-    recent_average = get_cheap_period_recent_average(10)
+    recent_average = get_cheap_period_recent_average(30)
     logging.info(
         f'Recent average: {recent_average} - Tomorrow: {cheapest_period_avg}')
 
