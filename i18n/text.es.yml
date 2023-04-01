@@ -2,7 +2,7 @@ es:
   daily_price: |
         %{date_time} es *%{rating}*
         Mejor periodo: %{cheapest_period_value}@%{cheapest_period} 
-        Peor periodo: %{expensive_period_value}@%{expensive_period}
+        Peor periodo:   %{expensive_period_value}@%{expensive_period}
 
   expensive_price: | 
       Apaga todo!! Es el momento mas caro
