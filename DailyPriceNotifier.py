@@ -1,9 +1,8 @@
 import os
 import logging
-from datetime import date, timedelta
 from services.SmsService import send_sms
 from services.WhatsappService import send_to_group
-from services.PriceService import get_max_price, get_min_price, get_cheapest_period, format_euro, get_daily_prices
+from services.PriceService import *
 from LoggingConfig import configure_logging
 import i18n
 from dotenv import load_dotenv
@@ -15,48 +14,38 @@ load_dotenv()
 TWILIO_RECIPIENTS = os.getenv('TWILIO_RECIPIENTS') or ""
 
 i18n.load_path.append('i18n')
-
-today = date.today()
-tomorrow = today + timedelta(days=1)
-
-price_data = get_daily_prices(tomorrow)
+i18n.set('locale', 'es')
+price_data = get_today()
 
 if not price_data:
-    logging.info(
-        f'No price data available yet for {tomorrow.strftime("%d %b, %Y")}')
+    logging.info('No price data available yet for tomorrow')
     exit(0)
 
 cheapest_period = get_cheapest_period(price_data, 3)
-cheapest_period_avg = format_euro(sum(
-    x.value for x in cheapest_period) / len(cheapest_period))
+cheapest_period_avg = calculate_average(cheapest_period)
+
+expensive_period = get_expensive_period(price_data, 3)
+expensive_period_avg = calculate_average(expensive_period)
 
 min_price = get_min_price(price_data)
 max_price = get_max_price(price_data)
 
-messageEn = i18n.t('text.daily_price',
-                   date_time=tomorrow.strftime('%d %b, %Y'),
-                   min_price=min_price.formatted,
-                   max_price=max_price.formatted,
-                   cheapest_period_hour=cheapest_period[0].hour,
-                   cheapest_period_value=cheapest_period_avg)
+rating = calculate_day_rating(cheapest_period_avg)
 
-i18n.set('locale', 'es')
 messageEs = i18n.t('text.daily_price',
-                   date_time=tomorrow.strftime('%d %b, %Y'),
-                   min_price=min_price.formatted,
-                   max_price=max_price.formatted,
-                   cheapest_period_hour=cheapest_period[0].hour,
-                   cheapest_period_value=cheapest_period_avg)
+                   date_time=min_price.datetime.strftime('%d %b, %Y'),
+                   rating=rating,
+                   cheapest_period=f'{cheapest_period[0].hour}-{cheapest_period[2].hour}',
+                   cheapest_period_value=format_euro(cheapest_period_avg),
+                   expensive_period=f'{expensive_period[0].hour}-{expensive_period[2].hour}',
+                   expensive_period_value=format_euro(expensive_period_avg))
 
 
-logging.info(messageEn)
 logging.info(messageEs)
 
 if TWILIO_RECIPIENTS != "":
     for recipient in TWILIO_RECIPIENTS.split(","):
-        if recipient.startswith('+34'):
-            send_sms(messageEs, recipient)
-        else:
-            send_sms(messageEn, recipient)
+        send_sms(messageEs, recipient)
+
 
 send_to_group(messageEs)
