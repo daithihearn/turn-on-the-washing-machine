@@ -15,7 +15,7 @@ TWILIO_RECIPIENTS = os.getenv('TWILIO_RECIPIENTS') or ""
 
 i18n.load_path.append('i18n')
 i18n.set('locale', 'es')
-price_data = get_today()
+price_data = get_tomorrow()
 
 if not price_data:
     logging.info('No price data available yet for tomorrow')
