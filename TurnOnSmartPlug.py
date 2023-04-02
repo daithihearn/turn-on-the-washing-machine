@@ -23,7 +23,7 @@ async def main():
         await turn_on()
     else:
         logging.info(
-            f'Not turning the smart plug on. Cheapest 3 hour period starts at {cheapest_period[0].hour}, min {min_price.formatted}, max {max_price.formatted}, current {curr_price.formatted}.')
+            f'Not turning the smart plug on. Cheapest 3 hour period starts at {cheapest_period[0].hour}:00, min {min_price.formatted}, max {max_price.formatted}, current {curr_price.formatted}.')
 
 if __name__ == '__main__':
     loop = asyncio.new_event_loop()

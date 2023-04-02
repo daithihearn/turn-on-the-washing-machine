@@ -42,4 +42,4 @@ if curr_price.hour == cheapest_period[0].hour:
     send_to_group(messageEs)
 else:
     logging.info(
-        f'No need to put the washing machine on. Cheapest 3 hour period starts at {cheapest_period[0].hour}, min {min_price.formatted}, max {max_price.formatted}, current {curr_price.formatted}.')
+        f'No need to put the washing machine on. Cheapest 3 hour period starts at {cheapest_period[0].hour}:00, min {min_price.formatted}, max {max_price.formatted}, current {curr_price.formatted}.')

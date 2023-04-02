@@ -18,8 +18,8 @@ class Price:
         self.value = price
         self.value_euro = format_euro(price)
         self.datetime = dt
-        self.hour = dt.strftime('%H:%M')
-        self.formatted = f'{self.value_euro}@{self.hour}'
+        self.hour = dt.strftime('%H')
+        self.formatted = f'{self.value_euro}@{self.hour}:00'
 
 
 def get_cheap_period_recent_average(days: int) -> float:

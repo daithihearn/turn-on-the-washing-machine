@@ -35,9 +35,9 @@ rating = calculate_day_rating(cheapest_period_avg)
 messageEs = i18n.t('text.daily_price',
                    date_time=min_price.datetime.strftime('%d %b, %Y'),
                    rating=rating,
-                   cheapest_period=f'{cheapest_period[0].hour}-{cheapest_period[2].hour}',
+                   cheapest_period=f'{cheapest_period[0].hour}:00-{cheapest_period[2].hour}:59',
                    cheapest_period_value=format_euro(cheapest_period_avg),
-                   expensive_period=f'{expensive_period[0].hour}-{expensive_period[2].hour}',
+                   expensive_period=f'{expensive_period[0].hour}:00-{expensive_period[2].hour}:59',
                    expensive_period_value=format_euro(expensive_period_avg))
 
 
