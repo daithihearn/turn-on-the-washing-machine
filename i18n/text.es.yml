@@ -1,6 +1,6 @@
 es:
   daily_price: |
-        %{date_time} es *%{rating}*
+        %{date_time} es un dia *%{rating}*
         Mejor periodo: %{cheapest_period_value}@%{cheapest_period} 
         Peor periodo:   %{expensive_period_value}@%{expensive_period}
 
