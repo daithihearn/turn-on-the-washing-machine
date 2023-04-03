@@ -2,7 +2,7 @@ import os
 import logging
 import requests
 import json
-import babel.numbers
+from babel.numbers import format_decimal
 from datetime import date, datetime, timedelta
 from dateutil.parser import parse
 from dotenv import load_dotenv
@@ -135,4 +135,4 @@ def calculate_average(prices: list[Price]) -> float:
 
 
 def format_euro(amount) -> str:
-    return f'{babel.numbers.format_decimal(amount, locale="en_GB")}'
+    return f'{format_decimal(amount, locale="en_GB", format="#,##0.000")}'

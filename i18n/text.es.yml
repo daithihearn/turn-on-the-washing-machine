@@ -1,16 +1,19 @@
 es:
   daily_price: |
-        %{date_time} es un dia *%{rating}*
-        Mejor periodo: %{cheapest_period_value}@%{cheapest_period} 
-        Peor periodo:   %{expensive_period_value}@%{expensive_period}
+      ```%{date_time} es un dia``` *%{rating}*
+
+      ```Mejor: %{cheapest_period_value}@%{cheapest_period} 
+      Peor:  %{expensive_period_value}@%{expensive_period}```
 
   expensive_price: | 
-      Apaga todo!! Es el momento mas caro
-       - Min:        %{min_price}
-       - Max:       %{max_price}
-       - Actual:   %{cur_price}
+      ```Apaga todo!! Es el momento mas caro
+
+      Min:    %{min_price}
+      Max:    %{max_price}
+      Actual: %{cur_price}```
   cheap_price: | 
-      Enciende la lavadora!! El periodo de 3 horas mas barato comienza ahora
-       - Min:        %{min_price}
-       - Max:       %{max_price}
-       - Actual:   %{cur_price}
+      ```Enciende la lavadora!! El periodo de 3 horas mas barato comienza ahora
+      
+      Min:    %{min_price}
+      Max:    %{max_price}
+      Actual: %{cur_price}```

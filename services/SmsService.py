@@ -13,7 +13,7 @@ def send_sms(message, recipient):
     client = Client(TWILIO_ACCOUNT_SSID, TWILIO_AUTH_TOKEN)
 
     client.messages.create(
-        body=message,
+        body=message.replace("`", "").replace("*", ""),
         from_=TWILIO_FROM_NUMBER,
         to=recipient
     )
