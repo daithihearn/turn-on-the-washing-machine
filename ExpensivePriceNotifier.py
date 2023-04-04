@@ -40,14 +40,15 @@ def get_message(locale: str) -> str:
                   cur_price=curr_price.formatted)
 
 
-messageEs = get_message('es')
-subjectEn = get_subject('en')
-messageEn = get_message('en')
-
-logging.info(messageEs)
-logging.info(messageEn)
-
 if curr_price.hour == max_price.hour:
+
+    # Get Messages
+    messageEs = get_message('es')
+    subjectEn = get_subject('en')
+    messageEn = get_message('en')
+
+    logging.info(messageEs)
+    logging.info(messageEn)
 
     # Send sms to all recipients
     if TWILIO_RECIPIENTS != "":
