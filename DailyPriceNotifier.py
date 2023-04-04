@@ -55,8 +55,8 @@ messageEs = get_message('es')
 subjectEn = get_subject('en')
 messageEn = get_message('en')
 
-
 logging.info(messageEs)
+logging.info(messageEn)
 
 # Send SMS to all recipients
 if TWILIO_RECIPIENTS != "":
