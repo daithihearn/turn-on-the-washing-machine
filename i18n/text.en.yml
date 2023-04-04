@@ -1,0 +1,23 @@
+en:
+    daily_price_subject: Tomorrow's Prices
+    daily_price: |
+        ```%{date_time} is a ```*%{rating}*``` day```
+
+        ```Best: %{cheapest_period_value}@%{cheapest_period} 
+        Worst:  %{expensive_period_value}@%{expensive_period}```
+
+    expensive_price_subject: Expensive Price Alert!
+    expensive_price: | 
+        ```Turn everything off!! It's the most expensive time
+
+        Min:     %{min_price}
+        Max:     %{max_price}
+        Current: %{cur_price}```
+
+    cheap_price_subject: Cheap Price Alert!
+    cheap_price: | 
+        ```Turn on the washing machine!! The cheapest three hour period starts now
+        
+        Min:     %{min_price}
+        Max:     %{max_price}
+        Current: %{cur_price}```
