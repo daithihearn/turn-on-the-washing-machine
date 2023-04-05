@@ -8,7 +8,8 @@ en:
 
     expensive_price_subject: Expensive Price Alert!
     expensive_price: | 
-        ```Turn everything off!! It's the most expensive time
+        ```Turn everything off!!
+        It's the most expensive time
 
         Min:     %{min_price}
         Max:     %{max_price}
@@ -16,7 +17,8 @@ en:
 
     cheap_price_subject: Cheap Price Alert!
     cheap_price: | 
-        ```Turn on the washing machine!! The cheapest three hour period starts now
+        ```Turn on the washing machine!!
+        The cheapest three hour period starts now
         
         Min:     %{min_price}
         Max:     %{max_price}
