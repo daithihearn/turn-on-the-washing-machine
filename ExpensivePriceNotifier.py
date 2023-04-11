@@ -3,7 +3,7 @@ import logging
 from services.EmailService import send_email
 from services.SmsService import send_sms
 from services.WhatsappService import send_to_group
-from services.PriceService import get_current_price, get_max_price, get_min_price, get_today
+from services.PriceService import get_current_price, get_max_price, get_min_price, get_today, get_expensive_period
 from LoggingConfig import configure_logging
 import i18n
 from dotenv import load_dotenv
@@ -26,6 +26,8 @@ curr_price = get_current_price(price_data)
 min_price = get_min_price(price_data)
 max_price = get_max_price(price_data)
 
+expensive_period = get_expensive_period(price_data, 3)
+
 
 def get_subject(locale: str) -> str:
     i18n.set('locale', locale)
@@ -40,7 +42,7 @@ def get_message(locale: str) -> str:
                   cur_price=curr_price.formatted)
 
 
-if curr_price.hour == max_price.hour:
+if curr_price.hour == expensive_period[0].hour:
 
     # Get Messages
     messageEs = get_message('es')
@@ -64,4 +66,4 @@ if curr_price.hour == max_price.hour:
             send_email(subjectEn, messageEn, recipient)
 else:
     logging.info(
-        f'No need to warn about the price. Min {min_price.formatted}, max {max_price.formatted}, current {curr_price.formatted}.')
+        f'No need to warn about the price. Most expensive 3 hour period starts at {expensive_period[0].hour}:00, min {min_price.formatted}, max {max_price.formatted}, current {curr_price.formatted}.')
