@@ -9,7 +9,7 @@ en:
     expensive_price_subject: Expensive Price Alert!
     expensive_price: | 
         ```Turn everything off!!
-        It's the most expensive time
+        It's the most expensive period
 
         Min:     %{min_price}
         Max:     %{max_price}
