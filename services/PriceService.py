@@ -65,25 +65,11 @@ def get_prices(start: date, end: date) -> list[Price]:
     start_day = start.strftime('%Y-%m-%d')
     end_day = end.strftime('%Y-%m-%d')
     response = requests.get(
-        f'{PRICES_API}?time_trunc=hour&start_date={start_day}T00:00&end_date={end_day}T23:59')
+        f'{PRICES_API}?start={start_day}&end={end_day}')
     content = response.content.decode('utf-8')
-    data = json.loads(content)
-    included = data.get('included')
-    if included is None:
-        return []
+    price_data = json.loads(content)
 
-    pvpc = [x for x in included if x.get('id') == '1001']
-
-    if not pvpc:
-        return []
-
-    attributes = pvpc[0].get('attributes')
-
-    if attributes is None:
-        return []
-    price_data = attributes.get('values')
-
-    return [Price(x.get('value') / 1000, parse(x.get('datetime'))) for x in price_data]
+    return [Price(x.get('price'), parse(x.get('dateTime'))) for x in price_data]
 
 
 def get_current_price(prices: list[Price]) -> Price:
