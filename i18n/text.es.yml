@@ -9,17 +9,17 @@ es:
     expensive_price_subject: Expensive Price Alert!
     expensive_price: | 
         ```Apaga todo!!
-        Es el period mas caro
+        Es el periodo mas caro
 
+        Actual: %{cur_price}
         Min:    %{min_price}
-        Max:    %{max_price}
-        Actual: %{cur_price}```
+        Max:    %{max_price}```
 
     cheap_price_subject: Cheap Price Alert!
     cheap_price: | 
         ```Enciende la lavadora!!
         El periodo de 3 horas mas barato comienza ahora
         
+        Actual: %{cur_price}
         Min:    %{min_price}
-        Max:    %{max_price}
-        Actual: %{cur_price}```
+        Max:    %{max_price}```

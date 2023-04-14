@@ -11,15 +11,15 @@ en:
         ```Turn everything off!!
         It's the most expensive period
 
+        Current: %{cur_price}
         Min:     %{min_price}
-        Max:     %{max_price}
-        Current: %{cur_price}```
+        Max:     %{max_price}```
 
     cheap_price_subject: Cheap Price Alert!
     cheap_price: | 
         ```Turn on the washing machine!!
         The cheapest three hour period starts now
         
+        Current: %{cur_price}
         Min:     %{min_price}
-        Max:     %{max_price}
-        Current: %{cur_price}```
+        Max:     %{max_price}```
