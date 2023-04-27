@@ -53,7 +53,7 @@ def calculate_day_rating(price_data: list[Price], median: float) -> str:
 
     if (curr_median < low_line):
         return 'BUENO'
-    elif (curr_median >= low_line or curr_median <= high_line):
+    elif (curr_median >= low_line and curr_median <= high_line):
         return 'NORMAL'
     else:
         return 'MALO'
