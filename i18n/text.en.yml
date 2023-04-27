@@ -4,7 +4,9 @@ en:
         ```%{date_time} is a ```*%{rating}*``` day```
 
         ```Best: %{cheapest_period_value}@%{cheapest_period} 
-        Worst:  %{expensive_period_value}@%{expensive_period}```
+        Worst:  %{expensive_period_value}@%{expensive_period}
+        ```
+        https://elec.daithiapp.com/
 
     expensive_price_subject: Expensive Price Alert!
     expensive_price: | 
@@ -14,6 +16,7 @@ en:
         Current: %{cur_price}
         Min:     %{min_price}
         Max:     %{max_price}```
+        https://elec.daithiapp.com/
 
     cheap_price_subject: Cheap Price Alert!
     cheap_price: | 
@@ -23,3 +26,4 @@ en:
         Current: %{cur_price}
         Min:     %{min_price}
         Max:     %{max_price}```
+        https://elec.daithiapp.com/
