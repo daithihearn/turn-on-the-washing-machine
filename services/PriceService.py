@@ -22,6 +22,12 @@ class Price:
         self.formatted = f'{self.value_euro}@{self.hour}:00'
 
 
+def get_thirty_day_median() -> float:
+    today = date.today()
+    prices = get_prices(today - timedelta(days=30), today)
+    return calculate_average(prices)
+
+
 def get_cheap_period_recent_average(days: int) -> float:
     today = date.today()
 
@@ -37,17 +43,20 @@ def get_cheap_period_recent_average(days: int) -> float:
     return total / days
 
 
-def calculate_day_rating(cheapest_period_avg: float) -> str:
-    recent_average = get_cheap_period_recent_average(30)
-    logging.info(
-        f'Recent average: {recent_average} - Tomorrow: {cheapest_period_avg}')
+def calculate_day_rating(price_data: list[Price], median: float) -> str:
+    curr_median = calculate_average(price_data)
+    low_line = median - VARIANCE
+    high_line = median + VARIANCE
 
-    if (recent_average - cheapest_period_avg) > VARIANCE:
-        return "Bueno"
-    elif (recent_average - cheapest_period_avg) < -VARIANCE:
-        return "Malo"
+    logging.info(
+        f'Current median: {curr_median} median: {median} low_line: {low_line} high_line: {high_line}')
+
+    if (curr_median < low_line):
+        return 'BUENO'
+    elif (curr_median >= low_line or curr_median <= high_line):
+        return 'NORMAL'
     else:
-        return "Normal"
+        return 'MALO'
 
 
 def get_today():

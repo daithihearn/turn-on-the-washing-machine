@@ -23,6 +23,8 @@ if not price_data:
     logging.info('No price data available yet for tomorrow')
     exit(0)
 
+median = get_thirty_day_median()
+
 cheapest_period = get_cheapest_period(price_data, 3)
 cheapest_period_avg = calculate_average(cheapest_period)
 
@@ -32,7 +34,8 @@ expensive_period_avg = calculate_average(expensive_period)
 min_price = get_min_price(price_data)
 max_price = get_max_price(price_data)
 
-rating = calculate_day_rating(cheapest_period_avg)
+
+rating = calculate_day_rating(price_data, median)
 
 
 def get_subject(locale: str) -> str:
