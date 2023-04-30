@@ -17,25 +17,19 @@ EMAIL_RECIPIENTS = os.getenv('EMAIL_RECIPIENTS') or ""
 
 i18n.load_path.append('i18n')
 
-price_data = get_tomorrow()
-
-if not price_data:
-    logging.info('No price data available yet for tomorrow')
-    exit(0)
-
-median = get_thirty_day_median()
-
-cheapest_period = get_cheapest_period(price_data, 3)
-cheapest_period_avg = calculate_average(cheapest_period)
-
-expensive_period = get_expensive_period(price_data, 3)
-expensive_period_avg = calculate_average(expensive_period)
-
-min_price = get_min_price(price_data)
-max_price = get_max_price(price_data)
+output_file_format = "outputs/output_{}.txt"
+today_date = datetime.now().strftime("%Y-%m-%d")
 
 
-rating = calculate_day_rating(price_data, median)
+def check_output_file():
+    output_filename = output_file_format.format(today_date)
+    return os.path.isfile(output_filename)
+
+
+def write_output_to_file(output):
+    output_filename = output_file_format.format(today_date)
+    with open(output_filename, 'w') as f:
+        f.write(output)
 
 
 def get_subject(locale: str) -> str:
@@ -43,8 +37,9 @@ def get_subject(locale: str) -> str:
     return i18n.t('text.daily_price_subject')
 
 
-def get_message(locale: str) -> str:
+def get_message(locale: str, min_price: Price, cheapest_period: list[Price], cheapest_period_avg: float, expensive_period: list[Price], expensive_period_avg: float, rating: str) -> str:
     i18n.set('locale', locale)
+
     return i18n.t('text.daily_price',
                   date_time=min_price.datetime.strftime('%d %b, %Y'),
                   rating=rating,
@@ -54,22 +49,49 @@ def get_message(locale: str) -> str:
                   expensive_period_value=format_euro(expensive_period_avg))
 
 
-messageEs = get_message('es')
-subjectEn = get_subject('en')
-messageEn = get_message('en')
+def main():
+    price_data = get_tomorrow()
 
-logging.info(messageEs)
-logging.info(messageEn)
+    if not price_data:
+        logging.info('No price data available yet for tomorrow')
+        exit(0)
 
-# Send SMS to all recipients
-if TWILIO_RECIPIENTS != "":
-    for recipient in TWILIO_RECIPIENTS.split(","):
-        send_sms(messageEs, recipient)
+    median = get_thirty_day_median()
 
-# Send WhatsApp to group
-send_to_group(messageEs)
+    cheapest_period = get_cheapest_period(price_data, 3)
+    cheapest_period_avg = calculate_average(cheapest_period)
 
-# Send email to all recipients
-if EMAIL_RECIPIENTS != "":
-    for recipient in EMAIL_RECIPIENTS.split(","):
-        send_email(subjectEn, messageEn, recipient)
+    expensive_period = get_expensive_period(price_data, 3)
+    expensive_period_avg = calculate_average(expensive_period)
+
+    min_price = get_min_price(price_data)
+
+    rating = calculate_day_rating(price_data, median)
+
+    messageEs = get_message(
+        'es', min_price, cheapest_period, cheapest_period_avg, expensive_period, expensive_period_avg, rating)
+    subjectEn = get_subject('en')
+    messageEn = get_message('en', min_price, cheapest_period,
+                            cheapest_period_avg, expensive_period, expensive_period_avg, rating)
+
+    # Send SMS to all recipients
+    if TWILIO_RECIPIENTS != "":
+        for recipient in TWILIO_RECIPIENTS.split(","):
+            send_sms(messageEs, recipient)
+
+    # Send WhatsApp to group
+    send_to_group(messageEs)
+
+    # Send email to all recipients
+    if EMAIL_RECIPIENTS != "":
+        for recipient in EMAIL_RECIPIENTS.split(","):
+            send_email(subjectEn, messageEn, recipient)
+
+    write_output_to_file(messageEs)
+
+
+if not check_output_file():
+    main()
+else:
+    logging.info(
+        f"Output file for date {today_date} already exists. Skipping execution.")
