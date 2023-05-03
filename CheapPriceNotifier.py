@@ -3,7 +3,7 @@ import logging
 from services.EmailService import send_email
 from services.SmsService import send_sms
 from services.WhatsappService import send_to_group
-from services.PriceService import get_current_price, get_min_price, get_max_price, get_cheapest_period, get_today
+from services.PriceService import get_current_price, get_min_price, get_max_price, get_two_cheapest_periods, get_today
 from LoggingConfig import configure_logging
 import i18n
 from dotenv import load_dotenv
@@ -23,7 +23,7 @@ if not price_data:
     exit(0)
 
 curr_price = get_current_price(price_data)
-cheapest_period = get_cheapest_period(price_data, 3)
+cheapest_periods = get_two_cheapest_periods(price_data, 3)
 min_price = get_min_price(price_data)
 max_price = get_max_price(price_data)
 
@@ -41,7 +41,7 @@ def get_message(locale: str) -> str:
                   cur_price=curr_price.formatted)
 
 
-if curr_price.hour == cheapest_period[0].hour:
+if (cheapest_periods[0] and curr_price.hour == cheapest_periods[0][0].hour) or (cheapest_periods[1] and curr_price.hour == cheapest_periods[1][0].hour):
 
     # Get Messages
     messageEs = get_message('es')
@@ -65,4 +65,4 @@ if curr_price.hour == cheapest_period[0].hour:
             send_email(subjectEn, messageEn, recipient)
 else:
     logging.info(
-        f'No need to put the washing machine on. Cheapest 3 hour period starts at {cheapest_period[0].hour}:00, min {min_price.formatted}, max {max_price.formatted}, current {curr_price.formatted}.')
+        f'No need to put the washing machine on.')

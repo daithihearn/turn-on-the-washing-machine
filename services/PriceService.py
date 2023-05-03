@@ -110,6 +110,42 @@ def get_cheapest_period(prices: list[Price], n: int):
     return min_window
 
 
+def get_two_cheapest_periods(prices: list[Price], n: int) -> tuple[list[Price], list[Price]]:
+    if len(prices) < n:
+        return [], []
+
+    first_period = get_cheapest_period(prices, n)
+
+    remaining_prices_before = [
+        p for p in prices if p.datetime < first_period[0].datetime]
+    remaining_prices_after = [
+        p for p in prices if p.datetime > first_period[n - 1].datetime]
+
+    first_period_before = get_cheapest_period(remaining_prices_before, n)
+    first_period_after = get_cheapest_period(remaining_prices_after, n)
+
+    if len(first_period_before) == n and len(first_period_after) == n:
+        first_period_before_average = calculate_average(first_period_before)
+        first_period_after_average = calculate_average(first_period_after)
+
+        second_period = first_period_before if first_period_before_average < first_period_after_average else first_period_after
+    else:
+        second_period = first_period_before if len(
+            first_period_before) == n else first_period_after
+
+    now = datetime.now()
+    end_of_first_period = first_period[n - 1].datetime + timedelta(hours=3)
+    end_of_second_period = second_period[n - 1].datetime + timedelta(hours=3)
+
+    if end_of_first_period < now:
+        first_period = []
+
+    if end_of_second_period < now or end_of_second_period <= end_of_first_period:
+        second_period = []
+
+    return first_period, second_period
+
+
 def get_expensive_period(prices: list[Price], n: int):
 
     prices_sorted = sorted(prices, key=lambda x: x.hour)

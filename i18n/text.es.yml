@@ -21,7 +21,7 @@ es:
     cheap_price_subject: Cheap Price Alert!
     cheap_price: | 
         ```Enciende la lavadora!!
-        El periodo de 3 horas mas barato comienza ahora
+        Un periodo barato esta empezando
         
         Actual: %{cur_price}
         Min:    %{min_price}
