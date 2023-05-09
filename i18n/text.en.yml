@@ -3,7 +3,7 @@ en:
     daily_price: |
         ```%{date_time} is a ```*%{rating}*``` day```
 
-        ```Best: %{cheapest_period_value}@%{cheapest_period} 
+        ```Best: %{cheapest_periods} 
         Worst:  %{expensive_period_value}@%{expensive_period}
         ```
         https://elec.daithiapp.com/

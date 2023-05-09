@@ -124,13 +124,13 @@ def get_two_cheapest_periods(prices: list[Price], n: int) -> tuple[list[Price], 
     first_period_before = get_cheapest_period(remaining_prices_before, n)
     first_period_after = get_cheapest_period(remaining_prices_after, n)
 
-    if len(first_period_before) == n and len(first_period_after) == n:
+    if first_period_before and len(first_period_before) == n and first_period_after and len(first_period_after) == n:
         first_period_before_average = calculate_average(first_period_before)
         first_period_after_average = calculate_average(first_period_after)
 
         second_period = first_period_before if first_period_before_average < first_period_after_average else first_period_after
     else:
-        second_period = first_period_before if len(
+        second_period = first_period_before if first_period_before and len(
             first_period_before) == n else first_period_after
 
     now = datetime.now()

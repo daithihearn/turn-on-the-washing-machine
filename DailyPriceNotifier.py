@@ -37,14 +37,18 @@ def get_subject(locale: str) -> str:
     return i18n.t('text.daily_price_subject')
 
 
-def get_message(locale: str, min_price: Price, cheapest_period: list[Price], cheapest_period_avg: float, expensive_period: list[Price], expensive_period_avg: float, rating: str) -> str:
+def get_message(locale: str, min_price: Price, cheapest_periods: tuple[list[Price], list[Price]], expensive_period: list[Price], expensive_period_avg: float, rating: str) -> str:
     i18n.set('locale', locale)
+
+    cheapest_periods_str = ""
+    for period in cheapest_periods:
+        if period:
+            cheapest_periods_str = f'{cheapest_periods_str} {format_euro(calculate_average(period))}@{period[0].hour}:00-{period[2].hour}:59'
 
     return i18n.t('text.daily_price',
                   date_time=min_price.datetime.strftime('%d %b, %Y'),
                   rating=rating,
-                  cheapest_period=f'{cheapest_period[0].hour}:00-{cheapest_period[2].hour}:59',
-                  cheapest_period_value=format_euro(cheapest_period_avg),
+                  cheapest_periods=cheapest_periods_str,
                   expensive_period=f'{expensive_period[0].hour}:00-{expensive_period[2].hour}:59',
                   expensive_period_value=format_euro(expensive_period_avg))
 
@@ -58,8 +62,7 @@ def main():
 
     median = get_thirty_day_median()
 
-    cheapest_period = get_cheapest_period(price_data, 3)
-    cheapest_period_avg = calculate_average(cheapest_period)
+    cheapest_periods = get_two_cheapest_periods(price_data, 3)
 
     expensive_period = get_expensive_period(price_data, 3)
     expensive_period_avg = calculate_average(expensive_period)
@@ -68,11 +71,11 @@ def main():
 
     rating = calculate_day_rating(price_data, median)
 
-    messageEs = get_message(
-        'es', min_price, cheapest_period, cheapest_period_avg, expensive_period, expensive_period_avg, rating)
+    messageEs = get_message('es', min_price, cheapest_periods,
+                            expensive_period, expensive_period_avg, rating)
     subjectEn = get_subject('en')
-    messageEn = get_message('en', min_price, cheapest_period,
-                            cheapest_period_avg, expensive_period, expensive_period_avg, rating)
+    messageEn = get_message('en', min_price, cheapest_periods,
+                            expensive_period, expensive_period_avg, rating)
 
     # Send SMS to all recipients
     if TWILIO_RECIPIENTS != "":
