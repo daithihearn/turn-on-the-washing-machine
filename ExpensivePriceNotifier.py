@@ -3,7 +3,7 @@ import logging
 from services.EmailService import send_email
 from services.SmsService import send_sms
 from services.WhatsappService import send_to_group
-from services.PriceService import get_current_price, get_max_price, get_min_price, get_today, get_expensive_period
+from services.PriceService import get_current_price, get_max_price, get_min_price, get_today, get_most_expensive_period
 from LoggingConfig import configure_logging
 import i18n
 from dotenv import load_dotenv
@@ -26,7 +26,7 @@ curr_price = get_current_price(price_data)
 min_price = get_min_price(price_data)
 max_price = get_max_price(price_data)
 
-expensive_period = get_expensive_period(price_data, 3)
+expensive_period = get_most_expensive_period(price_data, 3)
 
 
 def get_subject(locale: str) -> str:

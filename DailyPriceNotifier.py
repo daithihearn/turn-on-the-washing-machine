@@ -64,7 +64,7 @@ def main():
 
     cheapest_periods = get_two_cheapest_periods(price_data, 3)
 
-    expensive_period = get_expensive_period(price_data, 3)
+    expensive_period = get_most_expensive_period(price_data, 3)
     expensive_period_avg = calculate_average(expensive_period)
 
     min_price = get_min_price(price_data)

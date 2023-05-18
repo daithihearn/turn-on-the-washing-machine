@@ -2,6 +2,7 @@ import os
 import logging
 import requests
 import json
+from typing import List, Tuple
 from babel.numbers import format_decimal
 from datetime import date, datetime, timedelta
 from dateutil.parser import parse
@@ -95,14 +96,17 @@ def get_max_price(prices: list[Price]):
     return max(prices, key=lambda x: x.value)
 
 
-def get_cheapest_period(prices: list[Price], n: int):
+def get_cheapest_period(prices: List[Price], n: int) -> List[Price]:
+    if len(prices) < n:
+        return []
 
-    prices_sorted = sorted(prices, key=lambda x: x.hour)
-    min_sum = float('inf')
-    min_window = None
+    prices_sorted = sort_prices_by_date(prices)
+
+    min_sum = float("inf")
+    min_window = []
 
     for i in range(len(prices_sorted) - n + 1):
-        window_sum = sum(x.value for x in prices_sorted[i:i+n])
+        window_sum = sum(p.value for p in prices_sorted[i:i+n])
         if window_sum < min_sum:
             min_sum = window_sum
             min_window = prices_sorted[i:i+n]
@@ -110,7 +114,7 @@ def get_cheapest_period(prices: list[Price], n: int):
     return min_window
 
 
-def get_two_cheapest_periods(prices: list[Price], n: int) -> tuple[list[Price], list[Price]]:
+def get_two_cheapest_periods(prices: List[Price], n: int) -> Tuple[List[Price], List[Price]]:
     if len(prices) < n:
         return [], []
 
@@ -119,41 +123,45 @@ def get_two_cheapest_periods(prices: list[Price], n: int) -> tuple[list[Price], 
     remaining_prices_before = [
         p for p in prices if p.datetime < first_period[0].datetime]
     remaining_prices_after = [
-        p for p in prices if p.datetime > first_period[n - 1].datetime]
+        p for p in prices if p.datetime > first_period[n-1].datetime]
 
     first_period_before = get_cheapest_period(remaining_prices_before, n)
     first_period_after = get_cheapest_period(remaining_prices_after, n)
 
-    if first_period_before and len(first_period_before) == n and first_period_after and len(first_period_after) == n:
+    second_period = []
+
+    if len(first_period_before) == n and len(first_period_after) == n:
         first_period_before_average = calculate_average(first_period_before)
         first_period_after_average = calculate_average(first_period_after)
 
         second_period = first_period_before if first_period_before_average < first_period_after_average else first_period_after
     else:
-        second_period = first_period_before if first_period_before and len(
+        second_period = first_period_before if len(
             first_period_before) == n else first_period_after
 
-    now = datetime.now()
-    end_of_first_period = first_period[n - 1].datetime + timedelta(hours=3)
-    end_of_second_period = second_period[n - 1].datetime + timedelta(hours=3)
-
-    if end_of_first_period < now:
-        first_period = []
-
-    if end_of_second_period < now or end_of_second_period <= end_of_first_period:
+    if abs(calculate_average(first_period) - calculate_average(second_period)) > VARIANCE:
         second_period = []
 
-    return first_period, second_period
+    # If the second period is empty or outside the variance return the first period
+    if second_period == [] or abs(calculate_average(first_period) - calculate_average(second_period)) > VARIANCE:
+        return first_period, []
+    elif first_period[0].datetime < second_period[0].datetime:
+        return first_period, second_period
+    else:
+        return second_period, first_period
 
 
-def get_expensive_period(prices: list[Price], n: int):
+def get_most_expensive_period(prices: List[Price], n: int) -> List[Price]:
+    if len(prices) < n:
+        return []
 
-    prices_sorted = sorted(prices, key=lambda x: x.hour)
-    max_sum = float('-inf')
-    max_window = None
+    prices_sorted = sort_prices_by_date(prices)
+
+    max_sum = float("-inf")
+    max_window = []
 
     for i in range(len(prices_sorted) - n + 1):
-        window_sum = sum(x.value for x in prices_sorted[i:i+n])
+        window_sum = sum(p.value for p in prices_sorted[i:i+n])
         if window_sum > max_sum:
             max_sum = window_sum
             max_window = prices_sorted[i:i+n]
@@ -167,3 +175,7 @@ def calculate_average(prices: list[Price]) -> float:
 
 def format_euro(amount) -> str:
     return f'{format_decimal(amount, locale="en_GB", format="#,##0.000")}'
+
+
+def sort_prices_by_date(prices: List[Price]) -> List[Price]:
+    return sorted(prices, key=lambda p: p.datetime)
