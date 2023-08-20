@@ -174,7 +174,11 @@ def calculate_average(prices: list[Price]) -> float:
 
 
 def format_euro(amount) -> str:
-    return f'{format_decimal(amount, locale="en_GB", format="#,##0.000")}'
+    return f'{format_decimal(amount, locale="en_GB", format="#,##0.00")}'
+
+
+def format_cents_per_kwh(amount) -> str:
+    return f'{round(amount * 100)} cents/kWh'
 
 
 def sort_prices_by_date(prices: List[Price]) -> List[Price]:

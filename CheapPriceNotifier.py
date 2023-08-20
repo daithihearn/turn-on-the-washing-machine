@@ -3,7 +3,7 @@ import logging
 from services.EmailService import send_email
 from services.SmsService import send_sms
 from services.WhatsappService import send_to_group
-from services.PriceService import get_current_price, get_min_price, get_max_price, get_two_cheapest_periods, get_today
+from services.PriceService import format_cents_per_kwh, get_current_price, get_min_price, get_max_price, get_two_cheapest_periods, get_today, calculate_average
 from LoggingConfig import configure_logging
 import i18n
 from dotenv import load_dotenv
@@ -33,20 +33,17 @@ def get_subject(locale: str) -> str:
     return i18n.t('text.cheap_price_subject')
 
 
-def get_message(locale: str) -> str:
+def get_message(locale: str, average_price: str) -> str:
     i18n.set('locale', locale)
     return i18n.t('text.cheap_price',
-                  min_price=min_price.formatted,
-                  max_price=max_price.formatted,
-                  cur_price=curr_price.formatted)
+                  average_price=format_cents_per_kwh(average_price))
 
 
-if (cheapest_periods[0] and curr_price.hour == cheapest_periods[0][0].hour) or (cheapest_periods[1] and curr_price.hour == cheapest_periods[1][0].hour):
-
+def send_message(average_price: str):
     # Get Messages
-    messageEs = get_message('es')
+    messageEs = get_message('es', average_price)
     subjectEn = get_subject('en')
-    messageEn = get_message('en')
+    messageEn = get_message('en', average_price)
 
     logging.info(messageEs)
     logging.info(messageEn)
@@ -63,6 +60,12 @@ if (cheapest_periods[0] and curr_price.hour == cheapest_periods[0][0].hour) or (
     if EMAIL_RECIPIENTS != "":
         for recipient in EMAIL_RECIPIENTS.split(","):
             send_email(subjectEn, messageEn, recipient)
+
+
+if (cheapest_periods[0] and curr_price.hour == cheapest_periods[0][0].hour):
+    send_message(calculate_average(cheapest_periods[0]))
+elif (cheapest_periods[1] and curr_price.hour == cheapest_periods[1][0].hour):
+    send_message(calculate_average(cheapest_periods[1]))
 else:
     logging.info(
         f'No need to put the washing machine on.')

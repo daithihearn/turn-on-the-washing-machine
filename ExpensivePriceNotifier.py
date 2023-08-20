@@ -3,7 +3,7 @@ import logging
 from services.EmailService import send_email
 from services.SmsService import send_sms
 from services.WhatsappService import send_to_group
-from services.PriceService import get_current_price, get_max_price, get_min_price, get_today, get_most_expensive_period
+from services.PriceService import get_current_price, get_max_price, get_min_price, get_today, get_most_expensive_period, calculate_average, format_cents_per_kwh
 from LoggingConfig import configure_logging
 import i18n
 from dotenv import load_dotenv
@@ -28,6 +28,8 @@ max_price = get_max_price(price_data)
 
 expensive_period = get_most_expensive_period(price_data, 3)
 
+average_price = calculate_average(expensive_period)
+
 
 def get_subject(locale: str) -> str:
     i18n.set('locale', locale)
@@ -37,9 +39,7 @@ def get_subject(locale: str) -> str:
 def get_message(locale: str) -> str:
     i18n.set('locale', locale)
     return i18n.t('text.expensive_price',
-                  min_price=min_price.formatted,
-                  max_price=max_price.formatted,
-                  cur_price=curr_price.formatted)
+                  average_price=format_cents_per_kwh(average_price))
 
 
 if curr_price.hour == expensive_period[0].hour:

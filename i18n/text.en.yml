@@ -11,19 +11,13 @@ en:
     expensive_price_subject: Expensive Price Alert!
     expensive_price: | 
         ```Turn everything off!!
-        It's the most expensive period
+        It's the most expensive 3 hour period with an average price of %{average_price}```
 
-        Current: %{cur_price}
-        Min:     %{min_price}
-        Max:     %{max_price}```
         https://elec.daithiapp.com/
 
     cheap_price_subject: Cheap Price Alert!
     cheap_price: | 
         ```Turn on the washing machine!!
-        A cheap period is starting
+        A cheap period is starting with an average price of %{average_price}```
         
-        Current: %{cur_price}
-        Min:     %{min_price}
-        Max:     %{max_price}```
         https://elec.daithiapp.com/
