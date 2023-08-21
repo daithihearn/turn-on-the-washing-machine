@@ -11,13 +11,13 @@ en:
     expensive_price_subject: Expensive Price Alert!
     expensive_price: | 
         ```Turn everything off!!
-        It's the most expensive 3 hour period with an average price of %{average_price}```
+        It's the most expensive 3 hour period with an average price of %{average_price} cents per kWh```
 
         https://elec.daithiapp.com/
 
     cheap_price_subject: Cheap Price Alert!
     cheap_price: | 
         ```Turn on the washing machine!!
-        A cheap period is starting with an average price of %{average_price}```
+        A cheap period is starting with an average price of %{average_price} cents per kWh```
         
         https://elec.daithiapp.com/
