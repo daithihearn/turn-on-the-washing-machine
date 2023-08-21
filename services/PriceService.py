@@ -123,7 +123,7 @@ def get_two_cheapest_periods(prices: List[Price], n: int) -> Tuple[List[Price], 
     remaining_prices_before = [
         p for p in prices if p.datetime < first_period[0].datetime]
     remaining_prices_after = [
-        p for p in prices if p.datetime > first_period[n-1].datetime]
+        p for p in prices if p.datetime > first_period[-1].datetime]
 
     first_period_before = get_cheapest_period(remaining_prices_before, n)
     first_period_after = get_cheapest_period(remaining_prices_after, n)
@@ -142,9 +142,13 @@ def get_two_cheapest_periods(prices: List[Price], n: int) -> Tuple[List[Price], 
     if abs(calculate_average(first_period) - calculate_average(second_period)) > VARIANCE:
         second_period = []
 
-    # If the second period is empty or outside the variance return the first period
+    # If the second period is empty or outside the variance, return the first period
     if second_period == [] or abs(calculate_average(first_period) - calculate_average(second_period)) > VARIANCE:
         return first_period, []
+    # Check if periods are consecutive and if so, merge them
+    elif first_period[-1].datetime == second_period[0].datetime - timedelta(hours=1):
+        merged_period = first_period + second_period
+        return merged_period, []
     elif first_period[0].datetime < second_period[0].datetime:
         return first_period, second_period
     else:

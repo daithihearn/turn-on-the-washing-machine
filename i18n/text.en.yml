@@ -1,23 +1,31 @@
 en:
     daily_price_subject: Tomorrow's Prices
-    daily_price: |
+    daily_price_one: |
         ```%{date_time} is a ```*%{rating}*``` day```
 
-        ```Best: %{cheapest_periods} 
-        Worst:  %{expensive_period_value}@%{expensive_period}
-        ```
+        ```The cheapest ```*%{period_length}*``` hour period starts at %{cheapest_period_one_start} (%{cheapest_period_one_price cents/kWh}).```
+
+        ```The most expensive ```*3*``` hour period starts at %{expensive_period_start} (%{expensive_period_value cents/kWh})```
+        https://elec.daithiapp.com/
+
+    daily_price_two:
+        ```%{date_time} is a ```*%{rating}*``` day```
+
+        ```There are two ```*3*``` hour cheap periods. One starting at %{cheapest_period_one_start} (%{cheapest_period_one_price cents/kWh}) and another at %{cheapest_period_two_start} (%{cheapest_period_two_price cents/kWh}).```
+
+        ```The most expensive ```*3*``` hour period starts at %{expensive_period_start} (%{expensive_period_value cents/kWh})```
         https://elec.daithiapp.com/
 
     expensive_price_subject: Expensive Price Alert!
     expensive_price: | 
         ```Turn everything off!!
-        It's the most expensive 3 hour period with an average price of %{average_price} cents per kWh```
+        It's the most expensive 3 hour period with an average price of %{average_price} cents/kWh```
 
         https://elec.daithiapp.com/
 
     cheap_price_subject: Cheap Price Alert!
     cheap_price: | 
         ```Turn on the washing machine!!
-        A cheap period is starting with an average price of %{average_price} cents per kWh```
+        A cheap period is starting with an average price of %{average_price} cents/kWh```
         
         https://elec.daithiapp.com/

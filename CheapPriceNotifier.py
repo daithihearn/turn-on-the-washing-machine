@@ -67,5 +67,4 @@ if (cheapest_periods[0] and curr_price.hour == cheapest_periods[0][0].hour):
 elif (cheapest_periods[1] and curr_price.hour == cheapest_periods[1][0].hour):
     send_message(calculate_average(cheapest_periods[1]))
 else:
-    logging.info(
-        f'No need to put the washing machine on.')
+    logging.info('No need to put the washing machine on.')
