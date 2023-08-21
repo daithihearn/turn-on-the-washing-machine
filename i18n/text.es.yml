@@ -11,13 +11,13 @@ es:
     expensive_price_subject: Expensive Price Alert!
     expensive_price: | 
         ```Apaga todo!!
-        Es el periodo mas caro con un precio medio de %{average_price}```
+        Es el periodo mas caro con un precio medio de %{average_price} centimos por kWh```
 
         https://elec.daithiapp.com/
 
     cheap_price_subject: Cheap Price Alert!
     cheap_price: | 
         ```Enciende la lavadora!!
-        Un periodo barato esta empezando con un precio medio de %{average_price}```
+        Un periodo barato esta empezando con un precio medio de %{average_price} centimos por kWh```
         
         https://elec.daithiapp.com/
