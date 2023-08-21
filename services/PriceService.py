@@ -178,7 +178,7 @@ def format_euro(amount) -> str:
 
 
 def format_cents_per_kwh(amount) -> str:
-    return f'{round(amount * 100)} cents/kWh'
+    return f'{round(amount * 100)}'
 
 
 def sort_prices_by_date(prices: List[Price]) -> List[Price]:
