@@ -33,17 +33,18 @@ def get_subject(locale: str) -> str:
     return i18n.t('text.cheap_price_subject')
 
 
-def get_message(locale: str, average_price: str) -> str:
+def get_message(locale: str, average_price: str, cheapest_period_length: int) -> str:
     i18n.set('locale', locale)
     return i18n.t('text.cheap_price',
+                  period_length=cheapest_period_length,
                   average_price=format_cents_per_kwh(average_price))
 
 
-def send_message(average_price: str):
+def send_message(average_price: str, cheapest_period_length: int):
     # Get Messages
-    messageEs = get_message('es', average_price)
+    messageEs = get_message('es', average_price, cheapest_period_length)
     subjectEn = get_subject('en')
-    messageEn = get_message('en', average_price)
+    messageEn = get_message('en', average_price, cheapest_period_length)
 
     logging.info(messageEs)
     logging.info(messageEn)
@@ -63,8 +64,10 @@ def send_message(average_price: str):
 
 
 if (cheapest_periods[0] and curr_price.hour == cheapest_periods[0][0].hour):
-    send_message(calculate_average(cheapest_periods[0]))
+    send_message(calculate_average(
+        cheapest_periods[0]), len(cheapest_periods[0]))
 elif (cheapest_periods[1] and curr_price.hour == cheapest_periods[1][0].hour):
-    send_message(calculate_average(cheapest_periods[1]))
+    send_message(calculate_average(
+        cheapest_periods[1]), len(cheapest_periods[0]))
 else:
     logging.info('No need to put the washing machine on.')

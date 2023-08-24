@@ -26,6 +26,6 @@ es:
     cheap_price_subject: Cheap Price Alert!
     cheap_price: | 
         ```Enciende la lavadora!!
-        Un periodo barato esta empezando con un precio medio de %{average_price} centimos/kWh```
+        Un periodo de ```*%{period_length}*``` horas barato esta empezando ahora con un precio medio de %{average_price} centimos/kWh```
         
         https://elec.daithiapp.com/

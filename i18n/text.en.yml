@@ -26,6 +26,6 @@ en:
     cheap_price_subject: Cheap Price Alert!
     cheap_price: | 
         ```Turn on the washing machine!!
-        A cheap period is starting with an average price of %{average_price} cents/kWh```
+        A cheap ```*%{period_length}*``` hour period is starting now with an average price of %{average_price} cents/kWh```
         
         https://elec.daithiapp.com/
