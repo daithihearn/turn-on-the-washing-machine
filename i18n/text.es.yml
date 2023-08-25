@@ -11,7 +11,7 @@ es:
     daily_price_two: |
         ```%{date_time} es un dia ```*%{rating}*
 
-        ```Hay dos periodos de ```*3*``` horas baratos. El primero periodo empezara a las %{cheapest_period_one_start} (%{cheapest_period_one_price} centimos/kWh) y el segundo a las %{cheapest_period_two_start} (%{cheapest_period_two_price} centimos/kWh).```
+        ```Hay dos periodos de ```*3*``` horas baratos. El primer periodo empezara a las %{cheapest_period_one_start} (%{cheapest_period_one_price} centimos/kWh) y el segundo a las %{cheapest_period_two_start} (%{cheapest_period_two_price} centimos/kWh).```
 
         ```El periodo de ```*3*``` horas mas caro empezara a las %{expensive_period_start} (%{expensive_period_price} centimos/kWh)```
         https://elec.daithiapp.com/
