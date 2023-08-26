@@ -17,7 +17,7 @@ en:
         ```The most expensive ```*3*``` hour period starts at ```*%{expensive_period_start}*``` (```*%{expensive_period_price}*``` cents/kWh)```
 
         https://www.daithi.es/
-
+        
     expensive_price_subject: Expensive Price Alert!
     expensive_price: |
         ```Turn everything off!!
