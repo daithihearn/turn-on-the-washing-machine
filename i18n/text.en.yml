@@ -6,8 +6,8 @@ en:
         ```The cheapest ```*%{period_length}*``` hour period starts at ```*%{cheapest_period_one_start}*``` (```*%{cheapest_period_one_price}*``` cents/kWh).```
 
         ```The most expensive ```*3*``` hour period starts at ```*%{expensive_period_start}*``` (```*%{expensive_period_price}*``` cents/kWh)```
-        
-        https://preciosdelaelectricidad.es
+
+        https://www.daithi.es/
 
     daily_price_two: |
         ```%{date_time} is a ```*%{rating}*``` day```
@@ -16,20 +16,20 @@ en:
 
         ```The most expensive ```*3*``` hour period starts at ```*%{expensive_period_start}*``` (```*%{expensive_period_price}*``` cents/kWh)```
 
-        https://preciosdelaelectricidad.es
-
-    expensive_price_subject: Expensive Price Alert!
-    expensive_price: | 
-        ```Turn everything off!!
+        https://www.daithi.es/
         
+    expensive_price_subject: Expensive Price Alert!
+    expensive_price: |
+        ```Turn everything off!!
+
         It's the most expensive ```*3*``` hour period with an average price of ```*%{average_price}*``` cents/kWh```
 
-        https://preciosdelaelectricidad.es
+        https://www.daithi.es/
 
     cheap_price_subject: Cheap Price Alert!
-    cheap_price: | 
+    cheap_price: |
         ```Turn on the washing machine!!
 
         A cheap ```*%{period_length}*``` hour period is starting now with an average price of ```*%{average_price}*``` cents/kWh```
-        
-        https://preciosdelaelectricidad.es
+
+        https://www.daithi.es/
