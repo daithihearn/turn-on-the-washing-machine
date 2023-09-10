@@ -3,7 +3,7 @@ import logging
 from services.EmailService import send_email
 from services.SmsService import send_sms
 from services.WhatsappService import send_to_group
-from services.PriceService import get_current_price, get_max_price, get_min_price, get_today, get_most_expensive_period, calculate_average, format_cents_per_kwh
+from services.PriceService import get_current_price, get_today, calculate_average, format_cents_per_kwh
 from LoggingConfig import configure_logging
 import i18n
 from dotenv import load_dotenv
@@ -16,19 +16,15 @@ i18n.load_path.append('i18n')
 TWILIO_RECIPIENTS = os.getenv('TWILIO_RECIPIENTS') or ""
 EMAIL_RECIPIENTS = os.getenv('EMAIL_RECIPIENTS') or ""
 
-price_data = get_today()
+daily_price_info = get_today()
 
-if not price_data:
+if not daily_price_info:
     logging.info('No price data available')
     exit(0)
 
-curr_price = get_current_price(price_data)
-min_price = get_min_price(price_data)
-max_price = get_max_price(price_data)
+curr_price = get_current_price(daily_price_info.prices)
 
-expensive_period = get_most_expensive_period(price_data, 3)
-
-average_price = calculate_average(expensive_period)
+average_price = calculate_average(daily_price_info.expensive_period)
 
 
 def get_subject(locale: str) -> str:
@@ -42,28 +38,28 @@ def get_message(locale: str) -> str:
                   average_price=format_cents_per_kwh(average_price))
 
 
-if curr_price.hour == expensive_period[0].hour:
+if curr_price.hour == daily_price_info.expensive_period[0].hour:
 
     # Get Messages
-    messageEs = get_message('es')
+    message_es = get_message('es')
     subjectEn = get_subject('en')
-    messageEn = get_message('en')
+    message_en = get_message('en')
 
-    logging.info(messageEs)
-    logging.info(messageEn)
+    logging.info(message_es)
+    logging.info(message_en)
 
     # Send sms to all recipients
     if TWILIO_RECIPIENTS != "":
         for recipient in TWILIO_RECIPIENTS.split(","):
-            send_sms(messageEs, recipient)
+            send_sms(message_es, recipient)
 
     # Send whatsapp message to all recipients
-    send_to_group(messageEs)
+    send_to_group(message_es)
 
     # Send email to all recipients
     if EMAIL_RECIPIENTS != "":
         for recipient in EMAIL_RECIPIENTS.split(","):
-            send_email(subjectEn, messageEn, recipient)
+            send_email(subjectEn, message_en, recipient)
 else:
     logging.info(
-        f'No need to warn about the price. Most expensive 3 hour period starts at {expensive_period[0].hour}:00, min {min_price.formatted}, max {max_price.formatted}, current {curr_price.formatted}.')
+        f'No need to warn about the price. Most expensive 3 hour period starts at {daily_price_info.expensive_period[0].hour}:00.')

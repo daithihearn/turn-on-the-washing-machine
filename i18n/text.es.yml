@@ -1,7 +1,12 @@
 es:
     daily_price_subject: Tomorrow's Prices
+    daily_rating_good: |
+        ```%{date_time} es un dia ```*BUENO*
+    daily_rating_bad: |
+        ```%{date_time} es un dia ```*MALO*
+    daily_rating_normal: |
+        ```%{date_time} es un dia ```*NORMAL*
     daily_price_one: |
-        ```%{date_time} es un dia ```*%{rating}*
 
         ```El periodo de ```*%{period_length}*``` horas mas barato empezara a las ```*%{cheapest_period_one_start}*``` (```*%{cheapest_period_one_price}*``` centimos/kWh).```
 
@@ -10,7 +15,6 @@ es:
         https://elec.daithiapp.com/
 
     daily_price_two: |
-        ```%{date_time} es un dia ```*%{rating}*
 
         ```Hay dos periodos de ```*3*``` horas baratos. El primer periodo empezara a las ```*%{cheapest_period_one_start}*``` (```*%{cheapest_period_one_price}*``` centimos/kWh) y el segundo a las ```*%{cheapest_period_two_start}*``` (```*%{cheapest_period_two_price}*``` centimos/kWh).```
 

@@ -3,8 +3,9 @@ import logging
 from services.EmailService import send_email
 from services.SmsService import send_sms
 from services.WhatsappService import send_to_group
-from services.PriceService import *
+from services.PriceService import DailyPriceInfo, format_cents_per_kwh, get_tomorrow, calculate_average
 from LoggingConfig import configure_logging
+from datetime import datetime
 import i18n
 from dotenv import load_dotenv
 
@@ -37,71 +38,71 @@ def get_subject(locale: str) -> str:
     return i18n.t('text.daily_price_subject')
 
 
-def get_message(locale: str, cheapest_periods: tuple[list[Price], list[Price]], expensive_period: list[Price], expensive_period_avg: float, rating: str) -> str:
+def get_message(locale: str, price_info: DailyPriceInfo) -> str:
     i18n.set('locale', locale)
 
-    # If the second cheapest period is empty
-    if not cheapest_periods[1]:
-        return i18n.t('text.daily_price_one',
-                      date_time=expensive_period[0].datetime.strftime(
-                          '%d %b, %Y'),
-                      rating=rating,
-                      period_length=len(cheapest_periods[0]),
-                      cheapest_period_one_start=f'{cheapest_periods[0][0].hour}:00',
-                      cheapest_period_one_price=format_cents_per_kwh(
-                          calculate_average(cheapest_periods[0])),
-                      expensive_period_start=f'{expensive_period[0].hour}:00',
-                      expensive_period_price=format_cents_per_kwh(expensive_period_avg))
+    expensive_period_avg = calculate_average(
+        price_info.expensive_period)
+    # Get day rating text
+    if price_info.rating == "GOOD":
+        day_rating = i18n.t(
+            'text.daily_rating_good', date_time=price_info.expensive_period[0].datetime.strftime('%d %b, %Y'),)
+    elif price_info.rating == "NORMAL":
+        day_rating = i18n.t(
+            'text.daily_rating_normal', date_time=price_info.expensive_period[0].datetime.strftime('%d %b, %Y'),)
+    else:
+        day_rating = i18n.t(
+            'text.daily_rating_bad', date_time=price_info.expensive_period[0].datetime.strftime('%d %b, %Y'),)
 
-    return i18n.t('text.daily_price_two',
-                  date_time=expensive_period[0].datetime.strftime('%d %b, %Y'),
-                  rating=rating,
-                  cheapest_period_one_start=f'{cheapest_periods[0][0].hour}:00',
-                  cheapest_period_one_price=format_cents_per_kwh(
-                      calculate_average(cheapest_periods[0])),
-                  cheapest_period_two_start=f'{cheapest_periods[1][0].hour}:00',
-                  cheapest_period_two_price=format_cents_per_kwh(
-                      calculate_average(cheapest_periods[1])),
-                  expensive_period_start=f'{expensive_period[0].hour}:00',
-                  expensive_period_price=format_cents_per_kwh(expensive_period_avg))
+    # If the second cheapest period is empty
+    if not price_info.cheapest_periods.second:
+        return day_rating + i18n.t('text.daily_price_one',
+                                   period_length=len(
+                                       price_info.cheapest_periods.first),
+                                   cheapest_period_one_start=f'{price_info.cheapest_periods.first[0].hour}:00',
+                                   cheapest_period_one_price=format_cents_per_kwh(
+                                       calculate_average(price_info.cheapest_periods.first)),
+                                   expensive_period_start=f'{price_info.expensive_period[0].hour}:00',
+                                   expensive_period_price=format_cents_per_kwh(expensive_period_avg))
+
+    return day_rating + i18n.t('text.daily_price_two',
+                               cheapest_period_one_start=f'{price_info.cheapest_periods.first[0].hour}:00',
+                               cheapest_period_one_price=format_cents_per_kwh(
+                                   calculate_average(price_info.cheapest_periods.first)),
+                               cheapest_period_two_start=f'{price_info.cheapest_periods.second[0].hour}:00',
+                               cheapest_period_two_price=format_cents_per_kwh(
+                                   calculate_average(price_info.cheapest_periods.second)),
+                               expensive_period_start=f'{price_info.expensive_period[0].hour}:00',
+                               expensive_period_price=format_cents_per_kwh(expensive_period_avg))
 
 
 def main():
-    price_data = get_tomorrow()
+    try:
+        tomorrow_price_info = get_tomorrow()
 
-    if not price_data:
-        logging.info('No price data available yet for tomorrow')
-        exit(0)
+        message_es = get_message('es', tomorrow_price_info)
+        subject_en = get_subject('en')
+        message_en = get_message('en', tomorrow_price_info)
 
-    median = get_thirty_day_median()
+        # Send SMS to all recipients
+        if TWILIO_RECIPIENTS != "":
+            for recipient in TWILIO_RECIPIENTS.split(","):
+                send_sms(message_es, recipient)
 
-    cheapest_periods = get_two_cheapest_periods(price_data, 3)
+        # Send WhatsApp to group
+        send_to_group(message_es)
 
-    expensive_period = get_most_expensive_period(price_data, 3)
-    expensive_period_avg = calculate_average(expensive_period)
+        # Send email to all recipients
+        if EMAIL_RECIPIENTS != "":
+            for recipient in EMAIL_RECIPIENTS.split(","):
+                send_email(subject_en, message_en, recipient)
 
-    rating = calculate_day_rating(price_data, median)
-
-    messageEs = get_message('es', cheapest_periods,
-                            expensive_period, expensive_period_avg, rating)
-    subjectEn = get_subject('en')
-    messageEn = get_message('en', cheapest_periods,
-                            expensive_period, expensive_period_avg, rating)
-
-    # Send SMS to all recipients
-    if TWILIO_RECIPIENTS != "":
-        for recipient in TWILIO_RECIPIENTS.split(","):
-            send_sms(messageEs, recipient)
-
-    # Send WhatsApp to group
-    send_to_group(messageEs)
-
-    # Send email to all recipients
-    if EMAIL_RECIPIENTS != "":
-        for recipient in EMAIL_RECIPIENTS.split(","):
-            send_email(subjectEn, messageEn, recipient)
-
-    write_output_to_file(messageEs)
+        write_output_to_file(message_es)
+    except Exception as e:
+        if e.response.status_code == 404:
+            print("No price data available yet for tomorrow")
+        else:
+            print(f"An error occurred: {e.response.status_code}")
 
 
 if not check_output_file():
