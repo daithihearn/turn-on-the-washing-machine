@@ -7,6 +7,6 @@ sleep 5
 for job in "$@"
 do
     /usr/bin/python3 $job
-done 
+done
 
 kill $XVFB_PID
