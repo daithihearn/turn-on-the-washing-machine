@@ -35,7 +35,8 @@ def get_subject(locale: str) -> str:
 def get_message(locale: str) -> str:
     i18n.set('locale', locale)
     return i18n.t('text.expensive_price',
-                  average_price=format_cents_per_kwh(average_price))
+                  average_price=format_cents_per_kwh(average_price),
+                  period_length=len(daily_price_info.expensive_period))
 
 
 if curr_price.hour == daily_price_info.expensive_period[0].hour:
@@ -62,4 +63,4 @@ if curr_price.hour == daily_price_info.expensive_period[0].hour:
             send_email(subjectEn, message_en, recipient)
 else:
     logging.info(
-        f'No need to warn about the price. Most expensive 3 hour period starts at {daily_price_info.expensive_period[0].hour}:00.')
+        f'No need to warn about the price. Most expensive period starts at {daily_price_info.expensive_period[0].hour}:00.')

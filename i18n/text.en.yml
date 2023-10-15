@@ -9,17 +9,17 @@ en:
 
     daily_price_one: |
 
-        ```The cheapest ```*%{period_length}*``` hour period starts at ```*%{cheapest_period_one_start}*``` (```*%{cheapest_period_one_price}*``` cents/kWh).```
+        ```The cheapest period is ```*%{cheapest_period_one_start}*``` to ```*%{cheapest_period_one_end}*``` (```*%{cheapest_period_one_price}*``` cents/kWh).```
 
-        ```The most expensive ```*3*``` hour period starts at ```*%{expensive_period_start}*``` (```*%{expensive_period_price}*``` cents/kWh)```
+        ```The most expensive period is ```*%{expensive_period_start}*``` to ```*%{expensive_period_end}*``` (```*%{expensive_period_price}*``` cents/kWh)```
 
         https://elec.daithiapp.com/
 
     daily_price_two: |
 
-        ```There are two cheap ```*3*``` hour periods. One starting at ```*%{cheapest_period_one_start}*``` (```*%{cheapest_period_one_price}*``` cents/kWh) and another at ```*%{cheapest_period_two_start}*``` (```*%{cheapest_period_two_price}*``` cents/kWh).```
+        ```There are two cheap periods. One from ```*%{cheapest_period_one_start}*``` to ```*%{cheapest_period_one_end}*``` (```*%{cheapest_period_one_price}*``` cents/kWh) and another from ```*%{cheapest_period_two_start}*``` to ```*%{cheapest_period_two_end}*``` (```*%{cheapest_period_two_price}*``` cents/kWh).```
 
-        ```The most expensive ```*3*``` hour period starts at ```*%{expensive_period_start}*``` (```*%{expensive_period_price}*``` cents/kWh)```
+        ```The most expensive period is ```*%{expensive_period_start}*``` to ```*%{expensive_period_end}*``` (```*%{expensive_period_price}*``` cents/kWh)```
 
         https://elec.daithiapp.com/
         
@@ -27,7 +27,7 @@ en:
     expensive_price: |
         ```Turn everything off!!
 
-        It's the most expensive ```*3*``` hour period with an average price of ```*%{average_price}*``` cents/kWh```
+        It's the most expensive ```*%{period_length}*``` hour period with an average price of ```*%{average_price}*``` cents/kWh```
 
         https://elec.daithiapp.com/
 

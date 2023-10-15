@@ -8,17 +8,17 @@ es:
         ```%{date_time} es un dia ```*NORMAL*
     daily_price_one: |
 
-        ```El periodo de ```*%{period_length}*``` horas mas barato empezara a las ```*%{cheapest_period_one_start}*``` (```*%{cheapest_period_one_price}*``` centimos/kWh).```
+        ```Un periodo mas barato es de ```*%{cheapest_period_one_start}*``` a ```*%{cheapest_period_one_end}*``` (```*%{cheapest_period_one_price}*``` centimos/kWh).```
 
-        ```El periodo de ```*3*``` horas mas caro empezara a las ```*%{expensive_period_start}*``` (```*%{expensive_period_price}*``` centimos/kWh)```
+        ```El periodo mas caro es de ```*%{expensive_period_start}*``` a ```*%{expensive_period_end}*``` (```*%{expensive_period_price}*``` centimos/kWh)```
 
         https://elec.daithiapp.com/
 
     daily_price_two: |
 
-        ```Hay dos periodos de ```*3*``` horas baratos. El primer periodo empezara a las ```*%{cheapest_period_one_start}*``` (```*%{cheapest_period_one_price}*``` centimos/kWh) y el segundo a las ```*%{cheapest_period_two_start}*``` (```*%{cheapest_period_two_price}*``` centimos/kWh).```
+        ```Hay dos periodos baratos. El primer periodo es de ```*%{cheapest_period_one_start}*``` a ```*%{cheapest_period_one_end}*``` (```*%{cheapest_period_one_price}*``` centimos/kWh) y el segundo es de ```*%{cheapest_period_two_start}*``` a ```*%{cheapest_period_two_end}*``` (```*%{cheapest_period_two_price}*``` centimos/kWh).```
 
-        ```El periodo de ```*3*``` horas mas caro empezara a las ```*%{expensive_period_start}*``` (```*%{expensive_period_price}*``` centimos/kWh)```
+        ```El periodo mas caro es de ```*%{expensive_period_start}*``` a ```*%{expensive_period_end}*``` (```*%{expensive_period_price}*``` centimos/kWh)```
 
         https://elec.daithiapp.com/
 
@@ -26,7 +26,7 @@ es:
     expensive_price: |
         ```Apaga todo!!
 
-        Es el periodo mas caro con un precio medio de ```*%{average_price}*``` centimos/kWh```
+        Es el periodo de ```*%{period_length}*``` horas mas caro con un precio medio de ```*%{average_price}*``` centimos/kWh```
 
         https://elec.daithiapp.com/
 

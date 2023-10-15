@@ -57,22 +57,25 @@ def get_message(locale: str, price_info: DailyPriceInfo) -> str:
     # If the second cheapest period is empty
     if not price_info.cheapest_periods.second:
         return day_rating + i18n.t('text.daily_price_one',
-                                   period_length=len(
-                                       price_info.cheapest_periods.first),
                                    cheapest_period_one_start=f'{price_info.cheapest_periods.first[0].hour}:00',
+                                   cheapest_period_one_end=f'{price_info.cheapest_periods.first[-1].hour}:59',
                                    cheapest_period_one_price=format_cents_per_kwh(
                                        calculate_average(price_info.cheapest_periods.first)),
                                    expensive_period_start=f'{price_info.expensive_period[0].hour}:00',
+                                   expensive_period_end=f'{price_info.expensive_period[-1].hour}:59',
                                    expensive_period_price=format_cents_per_kwh(expensive_period_avg))
 
     return day_rating + i18n.t('text.daily_price_two',
                                cheapest_period_one_start=f'{price_info.cheapest_periods.first[0].hour}:00',
+                               cheapest_period_one_end=f'{price_info.cheapest_periods.first[-1].hour}:59',
                                cheapest_period_one_price=format_cents_per_kwh(
                                    calculate_average(price_info.cheapest_periods.first)),
                                cheapest_period_two_start=f'{price_info.cheapest_periods.second[0].hour}:00',
+                               cheapest_period_two_end=f'{price_info.cheapest_periods.second[-1].hour}:59',
                                cheapest_period_two_price=format_cents_per_kwh(
                                    calculate_average(price_info.cheapest_periods.second)),
                                expensive_period_start=f'{price_info.expensive_period[0].hour}:00',
+                               expensive_period_end=f'{price_info.expensive_period[-1].hour}:59',
                                expensive_period_price=format_cents_per_kwh(expensive_period_avg))
 
 
