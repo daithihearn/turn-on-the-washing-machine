@@ -5,16 +5,11 @@ from services.SmsService import send_sms
 from services.WhatsappService import send_to_group
 from services.PriceService import DailyPriceInfo, format_cents_per_kwh, get_tomorrow, calculate_average
 from LoggingConfig import configure_logging
-from datetime import datetime
+from datetime import datetime, date, timedelta
+from constants import TWILIO_RECIPIENTS, EMAIL_RECIPIENTS
 import i18n
-from dotenv import load_dotenv
 
 configure_logging()
-
-load_dotenv()
-
-TWILIO_RECIPIENTS = os.getenv('TWILIO_RECIPIENTS') or ""
-EMAIL_RECIPIENTS = os.getenv('EMAIL_RECIPIENTS') or ""
 
 i18n.load_path.append('i18n')
 
@@ -41,42 +36,36 @@ def get_subject(locale: str) -> str:
 def get_message(locale: str, price_info: DailyPriceInfo) -> str:
     i18n.set('locale', locale)
 
-    expensive_period_avg = calculate_average(
-        price_info.expensive_period)
+    today = date.today()
+    tomorrow = (today + timedelta(days=1)).strftime('%d %b, %Y')
+
     # Get day rating text
-    if price_info.rating == "GOOD":
+    if price_info.day_rating == "GOOD":
         day_rating = i18n.t(
-            'text.daily_rating_good', date_time=price_info.expensive_period[0].datetime.strftime('%d %b, %Y'),)
-    elif price_info.rating == "NORMAL":
+            'text.daily_rating_good', date_time=tomorrow,)
+    elif price_info.day_rating == "NORMAL":
         day_rating = i18n.t(
-            'text.daily_rating_normal', date_time=price_info.expensive_period[0].datetime.strftime('%d %b, %Y'),)
+            'text.daily_rating_normal', date_time=tomorrow,)
     else:
         day_rating = i18n.t(
-            'text.daily_rating_bad', date_time=price_info.expensive_period[0].datetime.strftime('%d %b, %Y'),)
+            'text.daily_rating_bad', date_time=tomorrow,)
 
-    # If the second cheapest period is empty
-    if not price_info.cheapest_periods.second:
-        return day_rating + i18n.t('text.daily_price_one',
-                                   cheapest_period_one_start=f'{price_info.cheapest_periods.first[0].hour}:00',
-                                   cheapest_period_one_end=f'{price_info.cheapest_periods.first[-1].hour}:59',
-                                   cheapest_period_one_price=format_cents_per_kwh(
-                                       calculate_average(price_info.cheapest_periods.first)),
-                                   expensive_period_start=f'{price_info.expensive_period[0].hour}:00',
-                                   expensive_period_end=f'{price_info.expensive_period[-1].hour}:59',
-                                   expensive_period_price=format_cents_per_kwh(expensive_period_avg))
+    daily_price_cheap = i18n.t('text.daily_price_cheap')
+    daily_price_expensive = i18n.t('text.daily_price_expensive')
+    new_line = i18n.t('text.new_line')
+    link = i18n.t('text.link')
 
-    return day_rating + i18n.t('text.daily_price_two',
-                               cheapest_period_one_start=f'{price_info.cheapest_periods.first[0].hour}:00',
-                               cheapest_period_one_end=f'{price_info.cheapest_periods.first[-1].hour}:59',
-                               cheapest_period_one_price=format_cents_per_kwh(
-                                   calculate_average(price_info.cheapest_periods.first)),
-                               cheapest_period_two_start=f'{price_info.cheapest_periods.second[0].hour}:00',
-                               cheapest_period_two_end=f'{price_info.cheapest_periods.second[-1].hour}:59',
-                               cheapest_period_two_price=format_cents_per_kwh(
-                                   calculate_average(price_info.cheapest_periods.second)),
-                               expensive_period_start=f'{price_info.expensive_period[0].hour}:00',
-                               expensive_period_end=f'{price_info.expensive_period[-1].hour}:59',
-                               expensive_period_price=format_cents_per_kwh(expensive_period_avg))
+    cheap_body = ''
+    for period in price_info.cheapest_periods:
+        cheap_body = cheap_body + i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{period[-1].hour}:59', period_price=format_cents_per_kwh(
+            calculate_average(period)))
+
+    expensive_body = ''
+    for period in price_info.expensive_periods:
+        expensive_body = expensive_body + i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{period[-1].hour}:59', period_price=format_cents_per_kwh(
+            calculate_average(period)))
+
+    return day_rating + new_line + daily_price_cheap + cheap_body + new_line + daily_price_expensive + expensive_body + new_line + link
 
 
 def main():

@@ -61,13 +61,15 @@ def send_message(average_price: str, cheapest_period_length: int):
 
 
 logging.info(
-    f'Current hour: {curr_price.hour} first cheap period {daily_price_info.cheapest_periods.first[0].hour}')
+    f'Current hour: {curr_price.hour} price: {curr_price.value}')
 
-if (len(daily_price_info.cheapest_periods.first) > 0 and curr_price.hour == daily_price_info.cheapest_periods.first[0].hour):
-    send_message(calculate_average(
-        daily_price_info.cheapest_periods.first), len(daily_price_info.cheapest_periods.first))
-elif (len(daily_price_info.cheapest_periods.second) > 0 and curr_price.hour == daily_price_info.cheapest_periods.second[0].hour):
-    send_message(calculate_average(
-        daily_price_info.cheapest_periods.second), len(daily_price_info.cheapest_periods.first))
-else:
-    logging.info('No need to put the washing machine on.')
+for period in daily_price_info.cheapest_periods:
+
+    if (len(period) > 0):
+        logging.info(
+            f'Cheap hour:   {period[0].hour} price: {period[0].value}')
+        if (curr_price.hour == period[0].hour):
+            send_message(calculate_average(period), len(period))
+            exit(0)
+
+logging.info('No need to put the washing machine on.')

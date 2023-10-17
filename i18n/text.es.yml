@@ -6,22 +6,21 @@ es:
         ```%{date_time} es un dia ```*MALO*
     daily_rating_normal: |
         ```%{date_time} es un dia ```*NORMAL*
-    daily_price_one: |
 
-        ```Un periodo mas barato es de ```*%{cheapest_period_one_start}*``` a ```*%{cheapest_period_one_end}*``` (```*%{cheapest_period_one_price}*``` centimos/kWh).```
+    daily_price_cheap: |
+        ```Periodos baratos```
 
-        ```El periodo mas caro es de ```*%{expensive_period_start}*``` a ```*%{expensive_period_end}*``` (```*%{expensive_period_price}*``` centimos/kWh)```
+    daily_price_expensive: |
+        ```Periodos caros```
 
+    daily_price_item: |
+        ```    ```*%{period_start}*``` a ```*%{period_end}*``` (```*%{period_price}*``` centimos/kWh).```
+
+    link: |
         https://elec.daithiapp.com/
 
-    daily_price_two: |
-
-        ```Hay dos periodos baratos. El primer periodo es de ```*%{cheapest_period_one_start}*``` a ```*%{cheapest_period_one_end}*``` (```*%{cheapest_period_one_price}*``` centimos/kWh) y el segundo es de ```*%{cheapest_period_two_start}*``` a ```*%{cheapest_period_two_end}*``` (```*%{cheapest_period_two_price}*``` centimos/kWh).```
-
-        ```El periodo mas caro es de ```*%{expensive_period_start}*``` a ```*%{expensive_period_end}*``` (```*%{expensive_period_price}*``` centimos/kWh)```
-
-        https://elec.daithiapp.com/
-
+    new_line: |
+        ``` ```
     expensive_price_subject: Expensive Price Alert!
     expensive_price: |
         ```Apaga todo!!

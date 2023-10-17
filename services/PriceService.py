@@ -6,35 +6,35 @@ from babel.numbers import format_decimal
 from datetime import date, datetime, timedelta
 from dateutil.parser import parse
 from dotenv import load_dotenv
-
-load_dotenv()
-
-PRICES_API = os.getenv('PRICES_API')
-VARIANCE = 0.02
-DAY_FORMAT = '%Y-%m-%d'
-HOUR_FORMAT = '%H'
+from models.DailyPriceInfo import DailyPriceInfo
+from models.Price import Price
+from models.DayRating import DayRating
+from constants import PRICES_API, DAY_FORMAT, HOUR_FORMAT
 
 
-class Price:
-    def __init__(self, id: str, dateTime: str, price: float):
-        self.value = price
-        self.datetime = parse(dateTime)
-        self.hour = self.datetime.strftime(HOUR_FORMAT)
+def json_to_daily_price_info(json_str: str) -> DailyPriceInfo:
+    data = json.loads(json_str)
 
+    # Convert the 'prices' list of dictionaries to a list of 'Price' objects
+    prices = [Price(id=p['id'], datetime=datetime.fromisoformat(
+        p['dateTime']), value=p['price']) for p in data['prices']]
 
-class CheapestPeriods:
-    def __init__(self, first, second):
-        self.first = [Price(**x) for x in first]
-        self.second = [Price(**x) for x in second]
+    # Convert the 'cheapestPeriods' and 'expensivePeriods' lists of lists of dictionaries
+    cheapest_periods = [[Price(id=p['id'], datetime=datetime.fromisoformat(
+        p['dateTime']), value=p['price']) for p in period] for period in data['cheapestPeriods']]
+    expensive_periods = [[Price(id=p['id'], datetime=datetime.fromisoformat(
+        p['dateTime']), value=p['price']) for p in period] for period in data['expensivePeriods']]
 
+    # Convert the 'dayRating' string to the 'DayRating' enum
+    day_rating = DayRating(data['dayRating'])
 
-class DailyPriceInfo:
-    def __init__(self, dayRating, thirtyDayAverage, prices, cheapestPeriods, expensivePeriod):
-        self.rating = dayRating
-        self.thirty_day_average = thirtyDayAverage
-        self.prices = [Price(**x) for x in prices]
-        self.cheapest_periods = CheapestPeriods(**cheapestPeriods)
-        self.expensive_period = [Price(**x) for x in expensivePeriod]
+    return DailyPriceInfo(
+        day_rating=day_rating,
+        thirty_day_average=data['thirtyDayAverage'],
+        prices=prices,
+        cheapest_periods=cheapest_periods,
+        expensive_periods=expensive_periods
+    )
 
 
 def get_prices(start: date, end: date) -> list[Price]:
@@ -54,9 +54,8 @@ def get_daily_price_info(datetime: date) -> DailyPriceInfo:
     response = requests.get(f'{PRICES_API}/dailyinfo?date={day}')
     response.raise_for_status()
     content = response.content.decode('utf-8')
-    daily_info_data = json.loads(content)
 
-    return DailyPriceInfo(**daily_info_data)
+    return json_to_daily_price_info(content)
 
 
 def get_today() -> DailyPriceInfo:
@@ -73,7 +72,7 @@ def get_tomorrow() -> DailyPriceInfo:
 def get_current_price(prices: list[Price]) -> Price:
     now = datetime.now()
     hour = now.strftime(HOUR_FORMAT)
-    return next((x for x in prices if x.datetime.strftime(HOUR_FORMAT) == hour), None)
+    return next((x for x in prices if x.hour == hour), None)
 
 
 def get_min_price(prices: list[Price]):
