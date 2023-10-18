@@ -4,7 +4,7 @@ from models.DayRating import DayRating
 from services.EmailService import send_email
 from services.SmsService import send_sms
 from services.WhatsappService import send_to_group
-from services.PriceService import DailyPriceInfo, format_cents_per_kwh, get_tomorrow, get_today, calculate_average
+from services.PriceService import DailyPriceInfo, format_cents_per_kwh, get_tomorrow, calculate_average
 from LoggingConfig import configure_logging
 from datetime import datetime, date, timedelta
 from constants import TWILIO_RECIPIENTS, EMAIL_RECIPIENTS
@@ -39,8 +39,6 @@ def get_message(locale: str, price_info: DailyPriceInfo) -> str:
 
     today = date.today()
     tomorrow = (today + timedelta(days=1)).strftime('%d %b, %Y')
-
-    logging.info(f'Rating: {price_info.day_rating}')
 
     # Get day rating text
     if price_info.day_rating == DayRating.GOOD:
@@ -77,7 +75,7 @@ def get_message(locale: str, price_info: DailyPriceInfo) -> str:
 
 def main():
     try:
-        tomorrow_price_info = get_today()
+        tomorrow_price_info = get_tomorrow()
 
         message_es = get_message('es', tomorrow_price_info)
         subject_en = get_subject('en')
