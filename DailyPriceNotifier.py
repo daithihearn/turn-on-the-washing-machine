@@ -52,7 +52,7 @@ def get_message(locale: str, price_info: DailyPriceInfo) -> str:
 
     daily_price_cheap = i18n.t('text.daily_price_cheap')
     daily_price_expensive = i18n.t('text.daily_price_expensive')
-    new_line = i18n.t('text.new_line')
+
     link = i18n.t('text.link')
 
     cheap_body = ''
@@ -65,7 +65,7 @@ def get_message(locale: str, price_info: DailyPriceInfo) -> str:
         expensive_body = expensive_body + i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{period[-1].hour}:59', period_price=format_cents_per_kwh(
             calculate_average(period)))
 
-    return day_rating + new_line + daily_price_cheap + cheap_body + new_line + daily_price_expensive + expensive_body + new_line + link
+    return day_rating + daily_price_cheap + cheap_body + daily_price_expensive + expensive_body + link
 
 
 def main():

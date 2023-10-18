@@ -8,24 +8,25 @@ es:
         ```%{date_time} es un dia ```*NORMAL*
 
     daily_price_cheap: |
-        ```Periodos baratos```
+
+        Periodos baratos
 
     daily_price_expensive: |
-        ```Periodos caros```
+
+        Periodos caros
 
     daily_price_item: |
-        ```    ```*%{period_start}*``` a ```*%{period_end}*``` (```*%{period_price}*``` centimos/kWh).```
+        ```%{period_start} a %{period_end} @ ```*%{period_price}*```c/kWh```
 
     link: |
-        https://elec.daithiapp.com/
 
-    new_line: |
-        ``` ```
+        https://elec.daithiapp.com/
+        
     expensive_price_subject: Expensive Price Alert!
     expensive_price: |
         ```Apaga todo!!
 
-        Es el periodo de ```*%{period_length}*``` horas mas caro con un precio medio de ```*%{average_price}*``` centimos/kWh```
+        Es el periodo de ```*%{period_length}*``` horas mas caro con un precio medio de ```*%{average_price}*```c/kWh```
 
         https://elec.daithiapp.com/
 
@@ -33,6 +34,6 @@ es:
     cheap_price: |
         ```Enciende la lavadora!!
 
-        Un periodo de ```*%{period_length}*``` horas barato esta empezando ahora con un precio medio de ```*%{average_price}*``` centimos/kWh```
+        Un periodo de ```*%{period_length}*``` horas barato esta empezando ahora con un precio medio de ```*%{average_price}*```c/kWh```
 
         https://elec.daithiapp.com/
