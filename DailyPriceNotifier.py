@@ -1,5 +1,6 @@
 import os
 import logging
+import time
 from models.DayRating import DayRating
 from services.EmailService import send_email
 from services.SmsService import send_sms
@@ -104,6 +105,7 @@ def main():
 
 if not check_output_file():
     main()
+    time.sleep(10)
 else:
     logging.info(
         f"Output file for date {today_date} already exists. Skipping execution.")

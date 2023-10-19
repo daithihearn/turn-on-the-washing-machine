@@ -1,5 +1,6 @@
 import os
 import logging
+import time
 from services.EmailService import send_email
 from services.SmsService import send_sms
 from services.WhatsappService import send_to_group
@@ -75,6 +76,7 @@ for period in daily_price_info.cheapest_periods:
             f'Cheap hour:   {period[0].hour} price: {period[0].value}')
         if (curr_price.hour == period[0].hour):
             send_message(period)
+            time.sleep(10)
             exit(0)
 
 logging.info('No need to put the washing machine on.')
