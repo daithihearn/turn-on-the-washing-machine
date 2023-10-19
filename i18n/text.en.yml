@@ -24,16 +24,14 @@ en:
         
     expensive_price_subject: Expensive Price Alert!
     expensive_price: |
-        ```Turn everything off!!
+        Turn everything off!!
 
-        It's the most expensive ```*%{period_length}*``` hour period with an average price of ```*%{average_price}*```c/kWh```
+        It's an expensive period.
 
-        https://elec.daithiapp.com/
 
     cheap_price_subject: Cheap Price Alert!
     cheap_price: |
-        ```Turn on the washing machine!!
+        Turn on the washing machine!!
 
-        A cheap ```*%{period_length}*``` hour period is starting now with an average price of ```*%{average_price}*```c/kWh```
+        It's a cheap period.
 
-        https://elec.daithiapp.com/

@@ -6,6 +6,8 @@ from services.PriceService import get_current_price, get_today, calculate_averag
 from LoggingConfig import configure_logging
 from constants import TWILIO_RECIPIENTS, EMAIL_RECIPIENTS
 import i18n
+from typing import List
+from models.Price import Price
 
 configure_logging()
 
@@ -25,18 +27,21 @@ def get_subject(locale: str) -> str:
     return i18n.t('text.expensive_price_subject')
 
 
-def get_message(locale: str, average_price: str, cheapest_period_length: int) -> str:
+def get_message(locale: str, period: List[Price]) -> str:
     i18n.set('locale', locale)
-    return i18n.t('text.expensive_price',
-                  average_price=format_cents_per_kwh(average_price),
-                  period_length=cheapest_period_length)
+    message_start = i18n.t('text.expensive_price')
+    message_period = i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{period[-1].hour}:59', period_price=format_cents_per_kwh(
+        calculate_average(period)))
+    message_link = i18n.t('text.link')
+
+    return message_start + message_period + message_link
 
 
-def send_message(average_price: str, cheapest_period_length: int) -> None:
+def send_message(period: List[Price]) -> None:
     # Get Messages
-    message_es = get_message('es', average_price, cheapest_period_length)
+    message_es = get_message('es', period)
     subject_en = get_subject('en')
-    message_en = get_message('en', average_price, cheapest_period_length)
+    message_en = get_message('en', period)
 
     logging.info(message_es)
     logging.info(message_en)
@@ -63,7 +68,7 @@ for period in daily_price_info.expensive_periods:
         logging.info(
             f'Expensive hour: {period[0].hour} price: {period[0].value}')
         if (curr_price.hour == period[0].hour):
-            send_message(calculate_average(period), len(period))
+            send_message(period)
             exit(0)
 
 logging.info('No need to warn about the price')
