@@ -4,3 +4,6 @@ actions-runner
 logs
 PyWhatKit_DB.txt
 outputs/
+
+.idea
+.idea/*
