@@ -5,7 +5,7 @@ from models.DayRating import DayRating
 from services.EmailService import send_email
 from services.SmsService import send_sms
 from services.WhatsappService import send_to_group
-from services.PriceService import DailyPriceInfo, format_cents_per_kwh, get_tomorrow, calculate_average
+from services.PriceService import DailyPriceInfo, format_cents_per_kwh, get_tomorrow, get_today, calculate_average
 from LoggingConfig import configure_logging
 from datetime import datetime, date, timedelta
 from constants import TWILIO_RECIPIENTS, EMAIL_RECIPIENTS
@@ -41,46 +41,54 @@ def get_message(locale: str, price_info: DailyPriceInfo) -> str:
     today = date.today()
     tomorrow = (today + timedelta(days=1)).strftime('%d %b, %Y')
 
+    message = ''
+
     # Get day rating text
     if price_info.day_rating == DayRating.GOOD:
-        day_rating = i18n.t(
+        message = i18n.t(
             'text.daily_rating_good', date_time=tomorrow,)
     elif price_info.day_rating == DayRating.NORMAL:
-        day_rating = i18n.t(
+        message = i18n.t(
             'text.daily_rating_normal', date_time=tomorrow,)
     elif price_info.day_rating == DayRating.BAD:
-        day_rating = i18n.t(
+        message = i18n.t(
             'text.daily_rating_bad', date_time=tomorrow,)
     else:
         logging.error(
             f"Invalid day rating: {price_info.day_rating}. Exiting.")
         exit(1)
 
-    daily_price_cheap = i18n.t('text.daily_price_cheap')
-    daily_price_expensive = i18n.t('text.daily_price_expensive')
-
     link = i18n.t('text.link')
 
-    cheap_body = ''
-    for period in price_info.cheapest_periods:
-        cheap_body = cheap_body + i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{period[-1].hour}:59', period_price=format_cents_per_kwh(
-            calculate_average(period)))
+    if bool(price_info.cheapest_periods):
+        message = message + i18n.t('text.daily_price_cheap')
+        for period in price_info.cheapest_periods:
+            message = message + i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{period[-1].hour}:59', period_price=format_cents_per_kwh(
+                calculate_average(period)))
+    else:
+        message = message + i18n.t('text.daily_price_no_cheap')
 
-    expensive_body = ''
-    for period in price_info.expensive_periods:
-        expensive_body = expensive_body + i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{period[-1].hour}:59', period_price=format_cents_per_kwh(
-            calculate_average(period)))
+    if bool(price_info.expensive_periods):
+        message = message + i18n.t('text.daily_price_expensive')
+        for period in price_info.expensive_periods:
+            message = message + i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{period[-1].hour}:59', period_price=format_cents_per_kwh(
+                calculate_average(period)))
+    else:
+        message = message + i18n.t('text.daily_price_no_expensive')
 
-    return day_rating + daily_price_cheap + cheap_body + daily_price_expensive + expensive_body + link
+    return message + link
 
 
 def main():
     try:
-        tomorrow_price_info = get_tomorrow()
+        tomorrow_price_info = get_today()
 
         message_es = get_message('es', tomorrow_price_info)
         subject_en = get_subject('en')
         message_en = get_message('en', tomorrow_price_info)
+
+        print(message_es)
+        print(message_en)
 
         # Send SMS to all recipients
         if TWILIO_RECIPIENTS != "":

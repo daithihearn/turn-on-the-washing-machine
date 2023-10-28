@@ -11,9 +11,18 @@ es:
 
         Periodos baratos
 
+    daily_price_no_cheap: |
+
+        No hay periodos baratos
+
+
     daily_price_expensive: |
 
         Periodos caros
+
+    daily_price_no_expensive: |
+
+            No hay periodos caros
 
     daily_price_item: |
         ```%{period_start} a %{period_end} @ ```*%{period_price}*```c/kWh```
