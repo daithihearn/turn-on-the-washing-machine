@@ -16,8 +16,13 @@ def json_to_daily_price_info(json_str: str) -> DailyPriceInfo:
     data = json.loads(json_str)
 
     # Convert the 'prices' list of dictionaries to a list of 'Price' objects
-    prices = [Price(datetime=datetime.fromisoformat(
-        p['dateTime']), value=p['price']) for p in data['prices']]
+    prices = [
+        Price(
+            datetime=datetime.fromisoformat(p['dateTime'].replace(
+                'Z', '')).replace(tzinfo=timezone.utc),
+            value=p['price']
+        ) for p in data['prices']
+    ]
 
     # Convert the 'cheapestPeriods' and 'expensivePeriods' lists of lists of dictionaries
     cheapest_periods = [
