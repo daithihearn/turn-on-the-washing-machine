@@ -16,13 +16,13 @@ def json_to_daily_price_info(json_str: str) -> DailyPriceInfo:
     data = json.loads(json_str)
 
     # Convert the 'prices' list of dictionaries to a list of 'Price' objects
-    prices = [Price(id=p['id'], datetime=datetime.fromisoformat(
+    prices = [Price(datetime=datetime.fromisoformat(
         p['dateTime']), value=p['price']) for p in data['prices']]
 
     # Convert the 'cheapestPeriods' and 'expensivePeriods' lists of lists of dictionaries
-    cheapest_periods = [[Price(id=p['id'], datetime=datetime.fromisoformat(
+    cheapest_periods = [[Price(datetime=datetime.fromisoformat(
         p['dateTime']), value=p['price']) for p in period] for period in data['cheapestPeriods']]
-    expensive_periods = [[Price(id=p['id'], datetime=datetime.fromisoformat(
+    expensive_periods = [[Price(datetime=datetime.fromisoformat(
         p['dateTime']), value=p['price']) for p in period] for period in data['expensivePeriods']]
 
     # Convert the 'dayRating' string to the 'DayRating' enum

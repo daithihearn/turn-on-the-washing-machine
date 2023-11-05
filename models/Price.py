@@ -5,7 +5,6 @@ from constants import HOUR_FORMAT
 
 @dataclass
 class Price:
-    id: str
     datetime: datetime
     value: float
     hour: int = field(init=False)
