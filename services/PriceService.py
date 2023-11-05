@@ -3,7 +3,7 @@ import requests
 import json
 from typing import List
 from babel.numbers import format_decimal
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from dateutil.parser import parse
 from dotenv import load_dotenv
 from models.DailyPriceInfo import DailyPriceInfo
@@ -20,10 +20,23 @@ def json_to_daily_price_info(json_str: str) -> DailyPriceInfo:
         p['dateTime']), value=p['price']) for p in data['prices']]
 
     # Convert the 'cheapestPeriods' and 'expensivePeriods' lists of lists of dictionaries
-    cheapest_periods = [[Price(datetime=datetime.fromisoformat(
-        p['dateTime']), value=p['price']) for p in period] for period in data['cheapestPeriods']]
-    expensive_periods = [[Price(datetime=datetime.fromisoformat(
-        p['dateTime']), value=p['price']) for p in period] for period in data['expensivePeriods']]
+    cheapest_periods = [
+        [
+            Price(
+                datetime=datetime.fromisoformat(p['dateTime'].replace(
+                    'Z', '')).replace(tzinfo=timezone.utc),
+                value=p['price']
+            ) for p in period
+        ] for period in data['cheapestPeriods']]
+    expensive_periods = [
+        [
+            Price(
+                datetime=datetime.fromisoformat(p['dateTime'].replace(
+                    'Z', '')).replace(tzinfo=timezone.utc),
+                value=p['price']
+            ) for p in period
+        ] for period in data['expensivePeriods']
+    ]
 
     # Convert the 'dayRating' string to the 'DayRating' enum
     day_rating = DayRating(data['dayRating'])
