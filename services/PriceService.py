@@ -4,13 +4,11 @@ import json
 from typing import List
 from babel.numbers import format_decimal
 from datetime import date, datetime, timedelta, timezone
-from dateutil.parser import parse
-from dotenv import load_dotenv
 from models.DailyPriceInfo import DailyPriceInfo
 from models.Price import Price
 from models.DayRating import DayRating
 from constants import PRICES_API, DAY_FORMAT, HOUR_FORMAT
-from zoneinfo import ZoneInfo
+from utils.DateUtils import parse_isoformat
 
 
 def json_to_daily_price_info(json_str: str) -> DailyPriceInfo:
@@ -19,8 +17,7 @@ def json_to_daily_price_info(json_str: str) -> DailyPriceInfo:
     # Convert the 'prices' list of dictionaries to a list of 'Price' objects
     prices = [
         Price(
-            datetime=datetime.fromisoformat(p['dateTime']).replace(
-                tzinfo=timezone.utc).astimezone(ZoneInfo("Europe/Madrid")),
+            datetime=parse_isoformat(p['dateTime']),
             value=p['price']
         ) for p in data['prices']
     ]
@@ -29,16 +26,14 @@ def json_to_daily_price_info(json_str: str) -> DailyPriceInfo:
     cheapest_periods = [
         [
             Price(
-                datetime=datetime.fromisoformat(p['dateTime']).replace(
-                    tzinfo=timezone.utc).astimezone(ZoneInfo("Europe/Madrid")),
+                datetime=parse_isoformat(p['dateTime']),
                 value=p['price']
             ) for p in period
         ] for period in data['cheapestPeriods']]
     expensive_periods = [
         [
             Price(
-                datetime=datetime.fromisoformat(p['dateTime']).replace(
-                    tzinfo=timezone.utc).astimezone(ZoneInfo("Europe/Madrid")),
+                datetime=parse_isoformat(p['dateTime']),
                 value=p['price']
             ) for p in period
         ] for period in data['expensivePeriods']
