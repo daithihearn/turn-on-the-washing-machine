@@ -10,6 +10,7 @@ from models.DailyPriceInfo import DailyPriceInfo
 from models.Price import Price
 from models.DayRating import DayRating
 from constants import PRICES_API, DAY_FORMAT, HOUR_FORMAT
+from zoneinfo import ZoneInfo
 
 
 def json_to_daily_price_info(json_str: str) -> DailyPriceInfo:
@@ -18,8 +19,8 @@ def json_to_daily_price_info(json_str: str) -> DailyPriceInfo:
     # Convert the 'prices' list of dictionaries to a list of 'Price' objects
     prices = [
         Price(
-            datetime=datetime.fromisoformat(p['dateTime'].replace(
-                'Z', '')).replace(tzinfo=timezone.utc),
+            datetime=datetime.fromisoformat(p['dateTime']).replace(
+                tzinfo=timezone.utc).astimezone(ZoneInfo("Europe/Madrid")),
             value=p['price']
         ) for p in data['prices']
     ]
@@ -28,16 +29,16 @@ def json_to_daily_price_info(json_str: str) -> DailyPriceInfo:
     cheapest_periods = [
         [
             Price(
-                datetime=datetime.fromisoformat(p['dateTime'].replace(
-                    'Z', '')).replace(tzinfo=timezone.utc),
+                datetime=datetime.fromisoformat(p['dateTime']).replace(
+                    tzinfo=timezone.utc).astimezone(ZoneInfo("Europe/Madrid")),
                 value=p['price']
             ) for p in period
         ] for period in data['cheapestPeriods']]
     expensive_periods = [
         [
             Price(
-                datetime=datetime.fromisoformat(p['dateTime'].replace(
-                    'Z', '')).replace(tzinfo=timezone.utc),
+                datetime=datetime.fromisoformat(p['dateTime']).replace(
+                    tzinfo=timezone.utc).astimezone(ZoneInfo("Europe/Madrid")),
                 value=p['price']
             ) for p in period
         ] for period in data['expensivePeriods']
