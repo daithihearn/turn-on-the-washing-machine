@@ -1,7 +1,7 @@
 import logging
 import asyncio
 from services.PriceService import get_current_price, get_today, calculate_average
-from services.SmartPlugService import turn_on
+from services.SmartPlugService import turn_on, turn_off
 from LoggingConfig import configure_logging
 
 configure_logging()
@@ -20,8 +20,16 @@ async def main():
             logging.info(
                 f'Cheap hour:   {period[0].hour} price: {period[0].value}')
             if (curr_price.hour == period[0].hour):
+                logging.info('Turning the smart plug on.')
                 await turn_on()
-                exit(0)
+            # Else if the current hour is the hour following a cheap period, turn the smart plug off
+            elif (curr_price.hour == period[-1].hour + 1):
+                logging.info('Turning the smart plug off.')
+                await turn_off()
+            else:
+                logging.info('No need to do anything.')
+
+            exit(0)
 
     logging.info('Not turning the smart plug on.')
 
