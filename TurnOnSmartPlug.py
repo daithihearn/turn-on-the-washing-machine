@@ -22,14 +22,14 @@ async def main():
             if (curr_price.hour == period[0].hour):
                 logging.info('Turning the smart plug on.')
                 await turn_on()
+                exit(0)
             # Else if the current hour is the hour following a cheap period, turn the smart plug off
-            elif (curr_price.hour == period[-1].hour + 1):
+            elif int(curr_price.hour) == int(period[-1].hour) + 1:
                 logging.info('Turning the smart plug off.')
                 await turn_off()
+                exit(0)
             else:
                 logging.info('No need to do anything.')
-
-            exit(0)
 
     logging.info('Not turning the smart plug on.')
 
