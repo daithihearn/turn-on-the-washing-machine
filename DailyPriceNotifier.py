@@ -63,7 +63,7 @@ def get_message(locale: str, price_info: DailyPriceInfo) -> str:
     if bool(price_info.cheapest_periods):
         message = message + i18n.t('text.daily_price_cheap')
         for period in price_info.cheapest_periods:
-            message = message + i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{period[-1].hour}:59', period_price=format_cents_per_kwh(
+            message = message + i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{increment_or_wrap(period[-1].hour)}:00', period_price=format_cents_per_kwh(
                 calculate_average(period)))
     else:
         message = message + i18n.t('text.daily_price_no_cheap')
@@ -71,12 +71,19 @@ def get_message(locale: str, price_info: DailyPriceInfo) -> str:
     if bool(price_info.expensive_periods):
         message = message + i18n.t('text.daily_price_expensive')
         for period in price_info.expensive_periods:
-            message = message + i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{period[-1].hour}:59', period_price=format_cents_per_kwh(
+            message = message + i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{increment_or_wrap(period[-1].hour)}:00', period_price=format_cents_per_kwh(
                 calculate_average(period)))
     else:
         message = message + i18n.t('text.daily_price_no_expensive')
 
     return message + link
+
+
+def increment_or_wrap(value):
+    if value == 23:
+        return 0
+    else:
+        return value + 1
 
 
 def main():
