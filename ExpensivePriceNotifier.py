@@ -9,6 +9,7 @@ from constants import TWILIO_RECIPIENTS, EMAIL_RECIPIENTS
 import i18n
 from typing import List
 from models.Price import Price
+from utils.DateUtils import increment_or_wrap
 
 configure_logging()
 
@@ -31,7 +32,7 @@ def get_subject(locale: str) -> str:
 def get_message(locale: str, period: List[Price]) -> str:
     i18n.set('locale', locale)
     message_start = i18n.t('text.expensive_price')
-    message_period = i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{period[-1].hour}:59', period_price=format_cents_per_kwh(
+    message_period = i18n.t('text.daily_price_item', period_start=f'{period[0].hour}:00', period_end=f'{increment_or_wrap(period[-1].hour)}:00', period_price=format_cents_per_kwh(
         calculate_average(period)))
     message_link = i18n.t('text.link')
 

@@ -9,3 +9,10 @@ def parse_isoformat(iso_str):
         iso_str = iso_str[:-1] + '+00:00'
     return datetime.fromisoformat(iso_str).replace(
         tzinfo=timezone.utc).astimezone(ZoneInfo(tz))
+
+
+def increment_or_wrap(value):
+    if value == 23:
+        return 0
+    else:
+        return value + 1

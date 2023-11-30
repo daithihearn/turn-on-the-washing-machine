@@ -11,6 +11,8 @@ from datetime import datetime, date, timedelta
 from constants import TWILIO_RECIPIENTS, EMAIL_RECIPIENTS
 import i18n
 
+from utils.DateUtils import increment_or_wrap
+
 configure_logging()
 
 i18n.load_path.append('i18n')
@@ -77,13 +79,6 @@ def get_message(locale: str, price_info: DailyPriceInfo) -> str:
         message = message + i18n.t('text.daily_price_no_expensive')
 
     return message + link
-
-
-def increment_or_wrap(value):
-    if value == 23:
-        return 0
-    else:
-        return value + 1
 
 
 def main():
