@@ -7,7 +7,7 @@ from constants import HOUR_FORMAT
 class Price:
     datetime: datetime
     value: float
-    hour: int = field(init=False)
+    hour: str = field(init=False)
 
     def __post_init__(self):
         self.hour = self.datetime.strftime(HOUR_FORMAT)

@@ -11,8 +11,8 @@ def parse_isoformat(iso_str):
         tzinfo=timezone.utc).astimezone(ZoneInfo(tz))
 
 
-def increment_or_wrap(value):
-    if value == 23:
+def increment_or_wrap(value: str):
+    if value == "23":
         return 0
     else:
-        return value + 1
+        return int(value) + 1
