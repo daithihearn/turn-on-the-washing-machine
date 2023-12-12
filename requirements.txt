@@ -6,3 +6,4 @@ meross_iot==0.4.5.9
 python-i18n[YAML]
 pywhatkit==5.4
 python-dateutil
+pytz

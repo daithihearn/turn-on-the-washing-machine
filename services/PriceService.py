@@ -3,12 +3,12 @@ import requests
 import json
 from typing import List
 from babel.numbers import format_decimal
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timedelta
 from models.DailyPriceInfo import DailyPriceInfo
 from models.Price import Price
 from models.DayRating import DayRating
 from constants import PRICES_API, DAY_FORMAT, HOUR_FORMAT
-from utils.DateUtils import parse_isoformat
+from utils.DateUtils import get_timezone, parse_isoformat
 
 
 def json_to_daily_price_info(json_str: str) -> DailyPriceInfo:
@@ -73,18 +73,18 @@ def get_daily_price_info(datetime: date) -> DailyPriceInfo:
 
 
 def get_today() -> DailyPriceInfo:
-    today = date.today()
+    today = datetime.now(get_timezone()).date()
     return get_daily_price_info(today)
 
 
 def get_tomorrow() -> DailyPriceInfo:
-    today = date.today()
+    today = datetime.now(get_timezone()).date()
     tomorrow = today + timedelta(days=1)
     return get_daily_price_info(tomorrow)
 
 
 def get_current_price(prices: list[Price]) -> Price:
-    now = datetime.now()
+    now = datetime.now(get_timezone())
     hour = now.strftime(HOUR_FORMAT)
     return next((x for x in prices if x.hour == hour), None)
 

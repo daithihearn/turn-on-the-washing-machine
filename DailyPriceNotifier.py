@@ -11,14 +11,14 @@ from datetime import datetime, date, timedelta
 from constants import TWILIO_RECIPIENTS, EMAIL_RECIPIENTS
 import i18n
 
-from utils.DateUtils import increment_or_wrap
+from utils.DateUtils import get_timezone, increment_or_wrap
 
 configure_logging()
 
 i18n.load_path.append('i18n')
 
 output_file_format = "outputs/output_{}.txt"
-today_date = datetime.now().strftime("%Y-%m-%d")
+today_date = datetime.now(get_timezone()).strftime("%Y-%m-%d")
 
 
 def check_output_file():

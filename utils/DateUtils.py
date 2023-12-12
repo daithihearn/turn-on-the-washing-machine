@@ -1,5 +1,10 @@
+import pytz
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
+
+
+def get_timezone():
+    return pytz.timezone('Europe/Madrid')
 
 
 def parse_isoformat(iso_str):

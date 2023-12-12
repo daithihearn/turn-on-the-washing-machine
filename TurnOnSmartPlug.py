@@ -1,6 +1,6 @@
 import logging
 import asyncio
-from services.PriceService import get_current_price, get_today, calculate_average
+from services.PriceService import get_current_price, get_today
 from services.SmartPlugService import turn_on, turn_off
 from LoggingConfig import configure_logging
 
@@ -32,6 +32,7 @@ async def main():
                 logging.info('No need to do anything.')
 
     logging.info('Not turning the smart plug on.')
+    exit(0)
 
 if __name__ == '__main__':
     loop = asyncio.new_event_loop()
