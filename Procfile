@@ -1,1 +1,1 @@
-worker: python TurnOnSmartPlug.py
+smartplug_worker: python TurnOnSmartPlug.py
