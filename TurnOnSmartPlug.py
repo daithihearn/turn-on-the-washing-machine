@@ -11,7 +11,7 @@ today_price_info = get_today()
 curr_price = get_current_price(today_price_info.prices)
 
 logging.info(
-    f'Current hour: {curr_price.hour} price: {curr_price.value}')
+    f'Current price started at {curr_price.hour}:00 with a value of €{curr_price.value}/kWh')
 
 
 async def main():
