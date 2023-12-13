@@ -18,7 +18,7 @@ async def main():
     for period in today_price_info.cheapest_periods:
         if (len(period) > 0):
             logging.info(
-                f'Cheap period starts @ {period[0].hour}:00 and ends @ {period[-1].hour + 1}:00')
+                f'Cheap period starts at {period[0].hour}:00 and ends at {int(period[-1].hour) + 1}:00')
             if (curr_price.hour == period[0].hour):
                 logging.info('Turning the smart plug on.')
                 await turn_on()
