@@ -31,7 +31,6 @@ async def main():
             else:
                 logging.info('No need to do anything.')
 
-    logging.info('Not turning the smart plug on.')
     exit(0)
 
 if __name__ == '__main__':
