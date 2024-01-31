@@ -9,12 +9,13 @@ load_dotenv()
 MEROSS_EMAIL = os.getenv('MEROSS_EMAIL')
 MEROSS_PASSWORD = os.getenv('MEROSS_PASSWORD')
 DEVICE_TO_TURN_ON = os.getenv('DEVICE_TO_TURN_ON')
+API_BASE_URL = "https://iotx-eu.meross.com"
 
 
 async def turn_on():
     if (DEVICE_TO_TURN_ON != None):
         # Setup the HTTP client API from user-password
-        http_api_client = await MerossHttpClient.async_from_user_password(email=MEROSS_EMAIL, password=MEROSS_PASSWORD)
+        http_api_client = await MerossHttpClient.async_from_user_password(api_base_url=API_BASE_URL, email=MEROSS_EMAIL, password=MEROSS_PASSWORD)
         # Setup and start the device manager
         manager = MerossManager(http_client=http_api_client)
         await manager.async_init()
@@ -32,7 +33,7 @@ async def turn_on():
 async def turn_off():
     if (DEVICE_TO_TURN_ON != None):
         # Setup the HTTP client API from user-password
-        http_api_client = await MerossHttpClient.async_from_user_password(email=MEROSS_EMAIL, password=MEROSS_PASSWORD)
+        http_api_client = await MerossHttpClient.async_from_user_password(api_base_url=API_BASE_URL, email=MEROSS_EMAIL, password=MEROSS_PASSWORD)
         # Setup and start the device manager
         manager = MerossManager(http_client=http_api_client)
         await manager.async_init()
