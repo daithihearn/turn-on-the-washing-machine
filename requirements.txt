@@ -7,3 +7,4 @@ python-i18n[YAML]
 pywhatkit==5.4
 python-dateutil
 pytz
+tzdata
